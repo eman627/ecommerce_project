@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\OrderCollection;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
+use App\Models\orderdetails;
 
 class OrderController extends Controller
 {
@@ -16,8 +18,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return new OrderCollection(Order::all());
-
+          return  OrderResource::collection( Order::all()) ;
     }
 
     /**
@@ -28,9 +29,35 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-       $order=new Order;
-       $order->create($request->all());
-       return response()->json("succesfull stor", 200);
+
+    DB::beginTransaction();
+    try{
+        $order = new Order();
+        $order->status=$request->status;
+        $order->address_state=$request->address_state;
+        $order->address_city=$request->address_city;
+        $order->address_street=$request->address_street;
+        $order->copoun=$request->copoun;
+        $order->user_id=$request->user_id;
+        $order->comment=$request->comment;
+        $order->price=$request->price;
+        $order->payment_id=$request->payment_id;
+        // $order->create($request->all());
+        $order->save();
+        $items = $request->products;
+
+        foreach( $items as $item ){
+            $orderItem = new orderdetails;
+            $orderItem->order_id = $order->id;
+            $orderItem->product_id = $item['product_id'];
+            $orderItem->quantity = $item['quantity'];
+            $orderItem->save();
+        }
+      DB::commit();
+    }catch (\Exception $e ){
+        DB::rollBack();
+    }
+    return response()->json("success", 200);
 
     }
 
@@ -42,8 +69,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $order=Order::where('user_id','=',$id)->get();
-        return $order;
+        return  OrderResource::collection( Order::where('user_id','=',$id)->get()) ;
     }
 
     /**
@@ -56,8 +82,8 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         $order=Order::find($id);
-        $order->update($request->all());
-        return response()->json(new OrderResource($product), 200);
+        $order->update($request->all()); 
+        return response()->json(new OrderResource($order), 200);
     }
 
     /**
