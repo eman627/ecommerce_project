@@ -24,4 +24,16 @@ class Product extends Model
 
 
     ];
+    public function orderdetails(){
+        return $this->hasMany(orderdetails::class,"product_id","id");
+    }
+    public function category(){
+        return $this->belongsTo(category::class,"category_id","id");
+    }
+    public function User(){
+        return $this->belongsTo(User::class,"user_id","id");
+    }
+    public function Reviews(){
+        return $this->hasMany(Review::class,"product_id","id");
+    }
 }

@@ -20,8 +20,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //->middleware('auth:sanctum')
 Route::apiResource('products','App\Http\Controllers\ProductController');
 Route::apiResource('categories','App\Http\Controllers\CategoryController');
+Route::apiResource('orders','App\Http\Controllers\OrderController');
 Route::post('login',['App\Http\Controllers\Auth\LoginController','login']);
 Route::post('register',['App\Http\Controllers\Auth\RegisterController','register']);
+Route::put('users/{id}',['App\Http\Controllers\UserController','update']);
+Route::get('reviews',['App\Http\Controllers\ReviewController','index']);
+Route::get('reviews/{id}',['App\Http\Controllers\ReviewController','show']);
+Route::post('reviews/{id}',['App\Http\Controllers\ReviewController','ubdate']);
+
 
 
 
