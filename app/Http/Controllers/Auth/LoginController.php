@@ -21,9 +21,15 @@ class LoginController extends Controller
         if(Auth::attempt(['email'=>$request->email,'password'=>$request->password]))
         {
 
-            // $token=Auth::user()->createToken('mobile');
+            $token=Auth::user()->createToken('mobile');
             // return ["token"=>$token->plainTextToken];
-            return response(['message'=>'Successfully Login'],200);
+        //     return response(['message'=>'Successfully Login',
+        // 'hi'=>'f'],200);
+        return  response()->json([
+            'status' => 'success',
+            "token"=>$token->plainTextToken,
+            'user'=>Auth::user()
+        ],200);
 
         }
         return response(['message'=>'wrong email or password'],403);

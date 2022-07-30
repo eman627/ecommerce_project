@@ -32,9 +32,11 @@ class RegisterController extends Controller
                 'email' => $request->email,
                 'role_id' => $request->role_id,
                 'phone' => $request->phone,
+                'address' => $request->address,
                 'password' => Hash::make($request->password),
             ]);
-            return response()->json( "Successfully Register",401);
+            return response()->json( "Successfully Register",200);
+            
 
 
 
