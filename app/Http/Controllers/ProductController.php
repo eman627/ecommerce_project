@@ -16,7 +16,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return new ProductCollection(Product::all());
+
+        return new ProductCollection(Product::where('quantity','>',0)->get());
 
     }
 
@@ -41,8 +42,6 @@ class ProductController extends Controller
 // return $product;
         $product=new Product;
         $product->create($request->all());
-      
-
        return response()->json("succesfull stor", 200);
 
     }

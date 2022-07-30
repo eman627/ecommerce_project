@@ -8,6 +8,7 @@ use App\Http\Resources\OrderCollection;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\orderdetails;
+use App\Models\Product;
 
 class OrderController extends Controller
 {
@@ -30,7 +31,7 @@ class OrderController extends Controller
     public function store(Request $request)
     {
 
-    DB::beginTransaction();
+     DB::beginTransaction();
     try{
         $order = new Order();
         $order->status=$request->status;
@@ -42,7 +43,6 @@ class OrderController extends Controller
         $order->comment=$request->comment;
         $order->price=$request->price;
         $order->payment_id=$request->payment_id;
-        // $order->create($request->all());
         $order->save();
         $items = $request->products;
 
@@ -52,11 +52,17 @@ class OrderController extends Controller
             $orderItem->product_id = $item['product_id'];
             $orderItem->quantity = $item['quantity'];
             $orderItem->save();
+            // Product::where(['id' => $item['product_id'])
+           $product= Product::find($item['product_id']);
+           $product->update([
+            $product->quantity -=  $item['quantity']
+        ]);
         }
       DB::commit();
     }catch (\Exception $e ){
         DB::rollBack();
     }
+
     return response()->json("success", 200);
 
     }
@@ -82,8 +88,11 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         $order=Order::find($id);
-        $order->update($request->all()); 
-        return response()->json(new OrderResource($order), 200);
+        if($order->status!="done"){
+            $order->status=$request->status;
+           return response()->json(new OrderResource($order), 200);
+            }
+        return response()->json(["message=>not allow to update status  order"], 403);
     }
 
     /**
