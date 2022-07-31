@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\CategoryCollection;
-use App\Http\Resources\CategoryResource;
-use App\Models\Category;
-use App\Http\Requests\CategoryRequest;
+use App\Http\Resources\OfferResource;
+use App\Http\Resources\OfferCollection;
 
-class CategoryController extends Controller
+use App\Models\Offer;
+
+
+
+class OfferController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +19,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return new CategoryCollection(Category::all());
+       return  new OfferCollection( Offer::all());
     }
 
     /**
@@ -26,11 +28,12 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store( CategoryRequest $request)
+    public function store(Request $request)
     {
-        $category=new Category;
-        $category->create($request->all());
-       return response()->json("succesfull stor", 200);
+
+        $offer=new Offer;
+        $offer->create($request->all());
+       return response()->json("succesfully store", 200);
     }
 
     /**
@@ -41,7 +44,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        return new CategoryResource(Category::find($id));
+        return new OfferCollection(Offer::where('product_id','=',$id)->get());
+
     }
 
     /**
@@ -51,11 +55,11 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update( Request $request, $id)
+    public function update(Request $request, $id)
     {
-        $category=Category::find($id);
-        $category->update($request->all());
-        return response()->json(new CategorytResource($category), 200);
+        $offer=Offer::find($id);
+        $offer->update($request->all());
+        return response()->json(new OfferResource($offer), 200);
     }
 
     /**
@@ -66,7 +70,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        Category::find($id)->delete();
+        Offer::find($id)->delete();
         return response()->json("deleted is done", 200);
     }
 }

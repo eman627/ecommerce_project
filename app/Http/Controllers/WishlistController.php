@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\CategoryCollection;
-use App\Http\Resources\CategoryResource;
-use App\Models\Category;
-use App\Http\Requests\CategoryRequest;
+use App\Http\Resources\WishlistResource;
+use App\Http\Resources\WishlistCollection;
+use App\Models\Wishlist;
 
-class CategoryController extends Controller
+
+class WishlistController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return new CategoryCollection(Category::all());
+        return new WishlistCollection (Wishlist::all());
     }
 
     /**
@@ -26,11 +26,13 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store( CategoryRequest $request)
+    public function store(Request $request)
     {
-        $category=new Category;
-        $category->create($request->all());
-       return response()->json("succesfull stor", 200);
+         $wishlist=new Wishlist;
+         $wishlist->product_id=$request->product_id;
+         //$wishlist->user_id=auth()->id();
+         $wishlist->save();
+         return response()->json("succesfully store", 200);
     }
 
     /**
@@ -41,7 +43,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        return new CategoryResource(Category::find($id));
+        return new WishlistCollection (Wishlist::where('user_id','=',$id)->get());
+
     }
 
     /**
@@ -51,11 +54,11 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update( Request $request, $id)
+    public function update(Request $request, $id)
     {
-        $category=Category::find($id);
-        $category->update($request->all());
-        return response()->json(new CategorytResource($category), 200);
+        // $wishlist=Wishlist::where('user_id','=',$id)->get();
+        // $wishlist->update($request->all());
+        // return response()->json($wishlist, 200);
     }
 
     /**
@@ -66,7 +69,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        Category::find($id)->delete();
+        Wishlist::where('product_id','=',$id)->delete();
         return response()->json("deleted is done", 200);
     }
 }

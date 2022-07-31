@@ -3,8 +3,12 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductCollection;
 
-class ReviewResource extends JsonResource
+use App\Models\Offer;
+
+class OfferResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,11 +18,13 @@ class ReviewResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'feedback'=>$this->feedback,
-            'rating'=>$this->rating,
-            'user_id'=>$this->user_id,
-            'product'=>$this->Product
+        return[
+
+
+            'end_at'=>$this->end_at,
+            'percent'=>$this->percent,
+            'product_id'=>$this->product_id,
+            'product'=>new ProductResource($this->products)
 
         ];
     }

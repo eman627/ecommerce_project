@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class ReviewCollection extends ResourceCollection
+class CartCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -15,7 +15,7 @@ class ReviewCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'reviews'=>$this->collection
+            'cart'=>$this->collection
         ];
     }
 }

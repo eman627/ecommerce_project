@@ -7,6 +7,8 @@ use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ProductUpdateRequest;
+
 class ProductController extends Controller
 {
     /**
@@ -41,7 +43,7 @@ class ProductController extends Controller
 // return $product;
         $product=new Product;
         $product->create($request->all());
-      
+
 
        return response()->json("succesfull stor", 200);
 
@@ -65,7 +67,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductRequest $request, $id)
+    public function update(ProductUpdateRequest $request, $id)
     {
         $product=Product::find($id);
         $product->update($request->all());
