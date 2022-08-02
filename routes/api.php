@@ -27,6 +27,7 @@ Route::apiResource('cart','App\Http\Controllers\CartController');
 Route::post('login',['App\Http\Controllers\Auth\LoginController','login']);
 Route::post('register',['App\Http\Controllers\Auth\RegisterController','register']);
 Route::put('users/{id}',['App\Http\Controllers\UserController','update']);
+Route::get('users',['App\Http\Controllers\UserController','index']);
 Route::get('reviews',['App\Http\Controllers\ReviewController','index']);
 Route::get('reviews/{id}',['App\Http\Controllers\ReviewController','show']);
 Route::post('reviews/{id}',['App\Http\Controllers\ReviewController','store']);

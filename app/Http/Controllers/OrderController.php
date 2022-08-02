@@ -75,7 +75,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        return  OrderResource::collection( Order::where('user_id','=',$id)->get()) ;
+        return  OrderResource::collection( Order::where('user_id','=',$id)->get());
     }
 
     /**

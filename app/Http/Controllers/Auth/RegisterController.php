@@ -18,6 +18,7 @@ class RegisterController extends Controller
         $validator = $request->validate([
             'email' => ['required', 'email','unique:users'],
             'password' => ['required'],
+            //'c_password' => 'required|same:password',
             'name' => ['required', 'string'],
             'phone' => ['unique:users','digits:11','starts_with:010,011,012','numeric']
 
@@ -36,7 +37,7 @@ class RegisterController extends Controller
                 'password' => Hash::make($request->password),
             ]);
             return response()->json( "Successfully Register",200);
-            
+
 
 
 
