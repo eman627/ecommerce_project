@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Resources\CategoryCollection;
+use App\Http\Resources\ProductCollection;
+use App\Http\Resources\ProductResource;
+
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Models\Product;
@@ -43,7 +46,9 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        return new CategoryCollection(Category::where('category_id','=',$id)->get());
+        return new CategoryResource(Category::find($id));
+        //return new CategoryCollection(Category::where('category_id','=',$id)->get());
+
     }
 
     /**
@@ -73,7 +78,7 @@ class CategoryController extends Controller
     }
 
     //filter by category
-    public function filter(Request $request)
+    public function mainCategory(Request $request)
     {
         return new CategoryCollection(Category::wherenull('category_id')->get());
 
@@ -92,6 +97,29 @@ class CategoryController extends Controller
 
 //    return response()->json( ["data"=>$category], 200);
     }
+    public function subCategory($id)
+    {
+        return new CategoryCollection(Category::where('category_id','=',$id)->get());
+
+    }
+
+
+    public function filterByProductName(Request $request)
+    {
+
+    $category=Product::all();
+        if($request->keyword)
+        {
+           $category=Product::where('name','like','%'.$request->keyword.'%')->get();
+
+        }
+         return response()->json( ["data"=>$category], 200);
+
+    }
+
+
+
+
 
 
 }

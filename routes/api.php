@@ -20,8 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //->middleware('auth:sanctum')
 Route::apiResource('products','App\Http\Controllers\ProductController');
 Route::apiResource('categories','App\Http\Controllers\CategoryController');
-Route::get('category',['App\Http\Controllers\CategoryController','filter']);
+Route::get('mainCategory',['App\Http\Controllers\CategoryController','mainCategory']);
+Route::get('subCategory',['App\Http\Controllers\CategoryController','subCategory']);
 
+Route::get('category/filter',['App\Http\Controllers\CategoryController','filterByProductName']);
 Route::apiResource('orders','App\Http\Controllers\OrderController');
 Route::apiResource('offeres','App\Http\Controllers\OfferController');
 Route::apiResource('wishlist','App\Http\Controllers\WishlistController');
