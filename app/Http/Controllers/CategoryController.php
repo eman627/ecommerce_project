@@ -55,7 +55,7 @@ class CategoryController extends Controller
     {
         $category=Category::find($id);
         $category->update($request->all());
-        return response()->json(new CategorytResource($category), 200);
+        return response()->json(new CategoryResource($category), 200);
     }
 
     /**
