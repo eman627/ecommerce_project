@@ -30,23 +30,22 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(ProductRequest $request)
-    {
-//          $product=new Product;
-//   $product->name=$request->name;
-//   $product->price=$request->price;
-//   $product->description=$request->description;
-//   $product->brand=$request->brand;
-//   $product->quantity=$request->quantity;
-//   $product->category_id=$request->category_id;
-//   $product->user_id=$request->user_id;
-//   $product->image= $request->image;
-//   $product->save();
-// return $product;
-        $product=new Product;
-        $product->create($request->all());
 
-
-       return response()->json("succesfull stor", 200);
+    {  $file=$request->file('image');
+        $upload_path="public/image";
+       $originalName= $file->getClientOriginalName();
+       $file->move($upload_path,$originalName);
+         $product=new Product;
+         $product->name=$request->name;
+         $product->price=$request->price;
+         $product->description=$request->description;
+         $product->brand=$request->brand;
+         $product->quantity=$request->quantity;
+         $product->category_id=$request->category_id;
+         $product->user_id=$request->user_id;
+         $product->image=$originalName;
+         $product->save();
+         return response()->json("succesfull stor", 200);
 
     }
 
