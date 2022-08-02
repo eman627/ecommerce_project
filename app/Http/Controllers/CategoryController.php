@@ -69,4 +69,18 @@ class CategoryController extends Controller
         Category::find($id)->delete();
         return response()->json("deleted is done", 200);
     }
+    public function filter(Request $request)
+    {
+        $category_query=Category::with(['product']);
+    if($request->keyword)
+    {
+       $category_query->where('name','like','%'.$request->keyword.'%');
+
+    }
+    $category=$category_query->get();
+
+   return response()->json( ["data"=>$category], 200);
+    }
+
+
 }
