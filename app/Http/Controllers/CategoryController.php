@@ -17,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return new CategoryCollection(Category::all());
+        return new CategoryCollection(Category::wherenull('category_id')->get());
     }
 
     /**
@@ -41,7 +41,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        return new CategoryResource(Category::find($id));
+        return new CategoryCollection(Category::where('category_id','=',$id)->get());
     }
 
     /**
@@ -69,15 +69,18 @@ class CategoryController extends Controller
         Category::find($id)->delete();
         return response()->json("deleted is done", 200);
     }
+
+    //filter by category
     public function filter(Request $request)
     {
-        $category_query=Category::with(['product']);
-    if($request->keyword)
-    {
-       $category_query->where('name','like','%'.$request->keyword.'%');
+    //     $category_query=Category::with(['product']);
+    // if($request->keyword)
+    // {
+    //    $category_query->where('name','like','%'.$request->keyword.'%');
 
-    }
-    $category=$category_query->get();
+    // }
+    // $category=$category_query->get();
+    $category=Category::with(['category'])->get();
 
    return response()->json( ["data"=>$category], 200);
     }
