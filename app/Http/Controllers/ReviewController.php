@@ -37,7 +37,7 @@ class ReviewController extends Controller
      */
     public function show($id)
     {
-        $review=new ReviewCollection(Review::where('product_id','=',$id));
+        $review=new ReviewCollection(Review::fine($id));
         return $review;
     }
 }
