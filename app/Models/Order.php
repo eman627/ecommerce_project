@@ -19,7 +19,7 @@ class Order extends Model
         'user_id',
         'comment',
         'price',
-        'payment_id',
+        'payment_id'
 
     ];
     public function orderdetails()
