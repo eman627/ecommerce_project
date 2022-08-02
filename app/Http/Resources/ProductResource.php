@@ -25,9 +25,13 @@ class ProductResource extends JsonResource
             'user'=>[
                 'user_id'=>$this->user->id,
                 'user_name'=>$this->user->name,
-                'user_address'=>$this->user->address,
-                'user_phone'=>$this->user->phone,
+                // 'user_address'=>$this->user->address,
+                // 'user_phone'=>$this->user->phone,
+                'role'=>$this->user->Roles->name
             ],
+            'Reviews'=> new ReviewCollection ($this->Reviews),
+             'Offeres'=> $this->offeres
+
 
         ];
     }

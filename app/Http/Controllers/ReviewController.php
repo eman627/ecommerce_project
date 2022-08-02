@@ -37,7 +37,7 @@ class ReviewController extends Controller
      */
     public function show($id)
     {
-        $review=Review::where('product_id','=',$id)->select('feedback','rating','user_id','product_id')->get();
+        $review=new ReviewCollection(Review::where('product_id','=',$id));
         return $review;
     }
 }

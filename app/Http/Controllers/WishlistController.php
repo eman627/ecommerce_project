@@ -31,6 +31,7 @@ class WishlistController extends Controller
          $wishlist=new Wishlist;
          $wishlist->product_id=$request->product_id;
          //$wishlist->user_id=auth()->id();
+         $wishlist->user_id=1;
          $wishlist->save();
          return response()->json("succesfully store", 200);
     }
