@@ -33,17 +33,15 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-         $cart=new Cart;
-        // if ($cart->quantity!=0)
-        // {
+            $cart=new Cart;
             $cart->price=$request->price;
             $cart->quantity=$request->quantity;
             $cart->product_id=$request->product_id;
-            //$cart->user_id=auth()->id();
+           // $cart->user_id=auth()->id();
+           $cart->user_id=1;
             $cart->save();
             return response()->json("succesfully store", 200);
-        // }
-        // return response()->json("not available in the  store", 403);
+
 
 
 
@@ -73,7 +71,7 @@ class CartController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $cart=Cart::where('user_id','=',$id)->get();
+        $cart=Cart::find($id);
         $cart->update($request->all());
         return response()->json($cart, 200);
     }

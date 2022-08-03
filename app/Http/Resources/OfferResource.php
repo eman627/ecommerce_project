@@ -20,11 +20,11 @@ class OfferResource extends JsonResource
     {
         return[
 
-
+            'id'=>$this->id,
             'end_at'=>$this->end_at,
             'percent'=>$this->percent,
-            'product_id'=>$this->product_id,
-            'product'=>new ProductResource($this->products)
+            //'product_id'=>$this->product_id,
+            'product'=>$this->products
 
         ];
     }
