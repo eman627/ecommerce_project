@@ -77,48 +77,67 @@ class CategoryController extends Controller
         return response()->json("deleted is done", 200);
     }
 
-    //filter by category
+    //return All Categories with Category_id=NULL
     public function mainCategory(Request $request)
     {
         return new CategoryCollection(Category::wherenull('category_id')->get());
 
-//         $category=Product::all();
-//     if($request->keyword)
-//     {
-//        $category=Product::where('name','like','%'.$request->keyword.'%')->get();
-
-//     }
-//     if($request->keyword)
-//     {
-//        $category=Product::where('category_id','=',$request->keyword)->get();
-
-//     }
-//     // $category=Category::with(['category'])->get();
-
-//    return response()->json( ["data"=>$category], 200);
     }
+
+     //Return All SubCategory
     public function subCategory($id)
     {
         return new CategoryCollection(Category::where('category_id','=',$id)->get());
 
     }
-
-
-    public function filterByProductName(Request $request)
+    public function SearchByProductName(Request $request)
     {
 
-    $category=Product::all();
-        if($request->keyword)
-        {
-           $category=Product::where('name','like','%'.$request->keyword.'%')->get();
-
-        }
-         return response()->json( ["data"=>$category], 200);
+    $products=new ProductCollection(Product::all());
+    if($request->keyword)
+    {
+       $products=new ProductCollection(Product::where('name','like','%'.$request->keyword.'%')->get());
 
     }
 
 
+   return response()->json( ["data"=>$products], 200);
+    }
 
+    //Search By Category Name
+    public function searchByCategoryName(Request $request)
+    {
+
+    $products=new ProductCollection(Product::all());
+
+    if($request->keyword)
+    {
+        $categoryId=Category::where('name','like','%'.$request->keyword.'%')->get('id');
+        foreach ($categoryId as $key => $value) {
+            $products = new ProductCollection(Product::where('category_id','=',$categoryId[$key]->id)->get());
+
+        }
+
+
+    }
+    return response()->json( ["data"=>$products], 200);
+
+    }
+
+    //Filter By Category Name
+    public function filterByCategoryName(Request $request)
+    {
+
+    $products=new ProductCollection(Product::all());
+
+    if($request->keyword)
+    {
+       $products=new ProductCollection(Product::where('category_id','=',$request->keyword)->get());
+
+    }
+
+   return response()->json( ["data"=>$products], 200);
+    }
 
 
 
