@@ -8,9 +8,9 @@ use Srmklive\PayPal\Services\ExpressCheckout;
 
 class PayPalController extends Controller
 {
-    public function payment(Request $request  ){
-        // $data = [];
-         $data['items']= $request->products;
+    public function payment(  ){
+        $data = [];
+        //  $data['items']= $request->products;
                  // foreach($product as $item) {
         //     $data['items'].array_push([
         //         'name' => $item['name'],
@@ -19,14 +19,14 @@ class PayPalController extends Controller
         //         'qty'=>$item.['quantity']
         //     ]);
         // }
-        // $data['items'] = [
-        //     [
-        //         'name' => 'Product 1',
-        //         'price' => 100,
-        //         'desc' => 'Description for Product 1',
-        //         'qty' => 1
-        //     ]
-        // ];
+        $data['items'] = [
+            [
+                'name' => 'Product 1',
+                'price' => 100,
+                'desc' => 'Description for Product 1',
+                'qty' => 1
+            ]
+        ];
 
         $data['invoice_id'] = 1;
 
@@ -36,7 +36,7 @@ class PayPalController extends Controller
 
         $data['cancel_url'] = route('payment.cancel');
 
-        $data['total'] = $request->total_price;
+        $data['total'] =100;
 
         $provider = new ExpressCheckout;
         $response = $provider->setExpressCheckout($data);
