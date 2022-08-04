@@ -8,6 +8,12 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+<<<<<<< HEAD
+    // public function __construct()
+    // {
+    //     $this->middleware('auth:api');
+    // }
+=======
     public function index(Request $request)
     {
         $users=User::where('role_id','=',"3")->get();
@@ -22,6 +28,7 @@ class UserController extends Controller
 
 
     }
+>>>>>>> fc4ddcb0482a5772db103ebef6bf9073a85a0c4f
    /**
      * Update the specified resource in storage.
      *
