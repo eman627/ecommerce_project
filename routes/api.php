@@ -46,6 +46,8 @@ Route::controller(AuthController::class)->group(function () {
 Route::get('payment',['App\Http\Controllers\PayPalController','payment'])->name("payment");
 Route::get('payment/cancel',['App\Http\Controllers\PayPalController','cancel'])->name("payment.cancel");
 Route::get('payment/success',['App\Http\Controllers\PayPalController','success'])->name("payment.success");
+Route::get('stripe',['App\Http\Controllers\StripePaymentController','stripe']);
+Route::post('stripe',['App\Http\Controllers\StripePaymentController','stripePost'])->name("stripe.post");
 
 
 
