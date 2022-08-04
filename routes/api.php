@@ -22,9 +22,10 @@ use App\Http\Controllers\AuthController;
 Route::apiResource('products','App\Http\Controllers\ProductController');
 Route::apiResource('categories','App\Http\Controllers\CategoryController');
 Route::get('mainCategory',['App\Http\Controllers\CategoryController','mainCategory']);
-Route::get('subCategory',['App\Http\Controllers\CategoryController','subCategory']);
-
-Route::get('category/filter',['App\Http\Controllers\CategoryController','filterByProductName']);
+Route::get('subCategory/{id}',['App\Http\Controllers\CategoryController','subCategory']);
+Route::get('product/search/{keyword?}',['App\Http\Controllers\CategoryController','SearchByProductName']);
+Route::get('category/filter/{keyword?}',['App\Http\Controllers\CategoryController','filterByCategoryName']);
+Route::get('category/search/{keyword?}',['App\Http\Controllers\CategoryController','searchByCategoryName']);
 Route::apiResource('orders','App\Http\Controllers\OrderController');
 Route::apiResource('offeres','App\Http\Controllers\OfferController');
 Route::apiResource('wishlist','App\Http\Controllers\WishlistController');
@@ -39,6 +40,10 @@ Route::get('users',['App\Http\Controllers\UserController','index']);
 Route::get('reviews',['App\Http\Controllers\ReviewController','index']);
 Route::get('reviews/{id}',['App\Http\Controllers\ReviewController','show']);
 Route::post('reviews/{id}',['App\Http\Controllers\ReviewController','store']);
+Route::get('countries',['App\Http\Controllers\AddressController','getAllCountries']);
+Route::get('states',['App\Http\Controllers\AddressController','getAllStates']);
+Route::get('cities/{id}',['App\Http\Controllers\AddressController','getAllCities']);
+
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('register', 'register');
