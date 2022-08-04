@@ -28,6 +28,8 @@ Route::apiResource('orders','App\Http\Controllers\OrderController');
 Route::apiResource('offeres','App\Http\Controllers\OfferController');
 Route::apiResource('wishlist','App\Http\Controllers\WishlistController');
 Route::apiResource('cart','App\Http\Controllers\CartController');
+Route::get('totalprice/{id}',['App\Http\Controllers\CartController','calcprice']);
+Route::get('totalitem/{id}',['App\Http\Controllers\CartController','totalitem']);
 Route::post('login',['App\Http\Controllers\Auth\LoginController','login']);
 Route::post('register',['App\Http\Controllers\Auth\RegisterController','register']);
 Route::put('users/{id}',['App\Http\Controllers\UserController','update']);
