@@ -43,6 +43,10 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('refresh', 'refresh');
 
 });
+Route::get('payment',['App\Http\Controllers\PayPalController','payment'])->name("payment");
+Route::get('payment/cancel',['App\Http\Controllers\PayPalController','cancel'])->name("payment.cancel");
+Route::get('payment/success',['App\Http\Controllers\PayPalController','success'])->name("payment.success");
+
 
 
 
