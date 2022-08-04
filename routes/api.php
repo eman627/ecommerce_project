@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,10 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 //->middleware('auth:sanctum')
+
 Route::apiResource('products','App\Http\Controllers\ProductController');
 Route::apiResource('categories','App\Http\Controllers\CategoryController');
 Route::get('mainCategory',['App\Http\Controllers\CategoryController','mainCategory']);
@@ -32,11 +33,24 @@ Route::get('totalprice/{id}',['App\Http\Controllers\CartController','calcprice']
 Route::get('totalitem/{id}',['App\Http\Controllers\CartController','totalitem']);
 Route::post('login',['App\Http\Controllers\Auth\LoginController','login']);
 Route::post('register',['App\Http\Controllers\Auth\RegisterController','register']);
+
 Route::put('users/{id}',['App\Http\Controllers\UserController','update']);
 Route::get('users',['App\Http\Controllers\UserController','index']);
 Route::get('reviews',['App\Http\Controllers\ReviewController','index']);
 Route::get('reviews/{id}',['App\Http\Controllers\ReviewController','show']);
 Route::post('reviews/{id}',['App\Http\Controllers\ReviewController','store']);
+Route::controller(AuthController::class)->group(function () {
+    Route::post('login', 'login');
+    Route::post('register', 'register');
+    Route::post('logout', 'logout');
+    Route::post('refresh', 'refresh');
+
+});
+Route::get('payment',['App\Http\Controllers\PayPalController','payment'])->name("payment");
+Route::get('payment/cancel',['App\Http\Controllers\PayPalController','cancel'])->name("payment.cancel");
+Route::get('payment/success',['App\Http\Controllers\PayPalController','success'])->name("payment.success");
+Route::get('stripe',['App\Http\Controllers\StripePaymentController','stripe']);
+Route::post('stripe',['App\Http\Controllers\StripePaymentController','stripePost'])->name("stripe.post");
 
 
 

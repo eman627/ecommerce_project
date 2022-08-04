@@ -8,9 +8,14 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware('auth:api');
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +23,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-
-        return new ProductCollection(Product::where('quantity','>',0)->get());
+        if(Auth::id()==1) return new ProductCollection(Product::all());
+        else
+         return new ProductCollection(Product::where('quantity','>',0)->get());
 
     }
 
