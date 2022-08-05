@@ -79,7 +79,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        return  OrderResource::collection( Order::where('user_id','=',$id)->get());
+        return Order::find($id);
     }
 
     /**
@@ -92,11 +92,13 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         $order=Order::find($id);
-        if($order->status!="done"){
-            $order->status=$request->status;
-           return response()->json(new OrderResource($order), 200);
-            }
-        return response()->json(["message=>not allow to update status  order"], 403);
+        // if($order->status!="done"){
+        //     $order->status=$request->status;
+        //    return response()->json(new OrderResource($order), 200);
+        //     }
+        $order->update($request->all());
+        return response()->json(new OrderResource($order), 200);
+        // return response()->json(["message=>not allow to update status  order"], 403);
     }
 
     /**
