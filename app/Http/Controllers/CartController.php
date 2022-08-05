@@ -61,7 +61,7 @@ class CartController extends Controller
         return new CartCollection (Cart::where('user_id','=',$id)->get());
 
     }
-  
+
     public function calcprice($id){
         $price = DB::table('cart')
              ->select(DB::raw('sum(cart.quantity*cart.price) as totalprice'))
@@ -74,7 +74,7 @@ class CartController extends Controller
         $count = DB::table('cart')
         ->select(DB::raw('sum(cart.quantity) as count'))
         ->where('user_id', '=', $id)
-        ->get(); 
+        ->get();
         return $count ;
     }
     /**
@@ -99,8 +99,11 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
-        
+
         Cart::find($id)->delete();
         return response()->json("deleted is done", 200);
+    }
+    public function cartProduct(){
+        
     }
 }

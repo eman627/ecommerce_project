@@ -8,8 +8,19 @@ use Srmklive\PayPal\Services\ExpressCheckout;
 
 class PayPalController extends Controller
 {
-    public function payment(  ){
+    public function payment( ){
         $data = [];
+        // **************************************************
+        // request ={
+            // products: from cart,  =>payment & product_details
+            // total price : from cart,
+            // address & comment & payment_id & copoun : form in checkout
+
+
+        // }
+        // function set in order&order_details => cash on delivery route
+        // payment gateway=>redirect=>route for place_order
+        // ******************************************************
         //  $data['items']= $request->products;
                  // foreach($product as $item) {
         //     $data['items'].array_push([
@@ -22,7 +33,7 @@ class PayPalController extends Controller
         $data['items'] = [
             [
                 'name' => 'Product 1',
-                'price' => 100,
+                'price' => 1,
                 'desc' => 'Description for Product 1',
                 'qty' => 1
             ]
@@ -36,7 +47,7 @@ class PayPalController extends Controller
 
         $data['cancel_url'] = route('payment.cancel');
 
-        $data['total'] =100;
+        $data['total'] =1;
 
         $provider = new ExpressCheckout;
         $response = $provider->setExpressCheckout($data);
@@ -51,7 +62,7 @@ class PayPalController extends Controller
         return response()->json( 'Your payment has been declend. The payment cancelation page goes here!');
     }
 
-    public function paymentSuccess(Request $request)
+    public function success(Request $request)
     {
         $paypalModule = new ExpressCheckout;
         $response = $paypalModule->getExpressCheckoutDetails($request->token);
