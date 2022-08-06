@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Srmklive\PayPal\Services\ExpressCheckout;
-
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Redirect;
 class PayPalController extends Controller
 {
     public function payment( ){
@@ -33,7 +34,7 @@ class PayPalController extends Controller
         $data['items'] = [
             [
                 'name' => 'Product 1',
-                'price' => 1,
+                'price' => 100,
                 'desc' => 'Description for Product 1',
                 'qty' => 1
             ]
@@ -47,7 +48,7 @@ class PayPalController extends Controller
 
         $data['cancel_url'] = route('payment.cancel');
 
-        $data['total'] =1;
+        $data['total'] =100;
 
         $provider = new ExpressCheckout;
         $response = $provider->setExpressCheckout($data);
@@ -68,9 +69,8 @@ class PayPalController extends Controller
         $response = $paypalModule->getExpressCheckoutDetails($request->token);
 
         if (in_array(strtoupper($response['ACK']), ['SUCCESS', 'SUCCESSWITHWARNING'])) {
-            return response()->json(
-                'Payment was successfull. The payment success page goes here!'
-            );
+            return response()->json( 'success') ;
+
         }
 
         return response()->json( 'something went wrong!') ;

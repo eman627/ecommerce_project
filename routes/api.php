@@ -34,6 +34,7 @@ Route::get('totalprice/{id}',['App\Http\Controllers\CartController','calcprice']
 Route::get('totalitem/{id}',['App\Http\Controllers\CartController','totalitem']);
 // Route::post('login',['App\Http\Controllers\Auth\LoginController','login']);
 // Route::post('register',['App\Http\Controllers\Auth\RegisterController','register']);
+//  Route::post('orders','OrderController@store');
 
 Route::put('users/{id}',['App\Http\Controllers\UserController','update']);
 Route::get('users',['App\Http\Controllers\UserController','index']);

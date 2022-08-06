@@ -104,6 +104,6 @@ class CartController extends Controller
         return response()->json("deleted is done", 200);
     }
     public function cartProduct(){
-        
+
     }
 }
