@@ -1,19 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Http\Request;
 use App\Models\User;
 
 
 class UserController extends Controller
 {
-<<<<<<< HEAD
     // public function __construct()
     // {
     //     $this->middleware('auth:api');
     // }
-=======
+
     public function index(Request $request)
     {
         $users=User::where('role_id','=',"3")->get();
@@ -28,7 +27,6 @@ class UserController extends Controller
 
 
     }
->>>>>>> fc4ddcb0482a5772db103ebef6bf9073a85a0c4f
    /**
      * Update the specified resource in storage.
      *
@@ -42,4 +40,31 @@ class UserController extends Controller
         $user->update($request->all());
         return response()->json($user, 200);
     }
+    // show login button view
+    public function socialLogin(){
+        return view("login");
+    }
+
+    public function redirectToGoogle(){
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback(){
+        $socialuser = Socialite::driver('google')->user();
+        // dd($socialuser->getAvatar());
+
+        $user      =   User::where(['email' => $socialuser->getEmail()])->first();
+        if(!$user){
+            $user = User::firstOrCreate([
+                'name'          => $socialuser->getName(),
+                'email'         => $socialuser->getEmail(),
+                'role_id'       =>3,
+                'password'      =>encrypt('123456dummy')
+            ]);
+        }
+
+        // Auth::login($user);
+        return  ('welcom in home page');
+    }
+
 }
