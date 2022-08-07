@@ -10,10 +10,10 @@ use App\Models\Wishlist;
 
 class WishlistController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth:api');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +35,7 @@ class WishlistController extends Controller
          $wishlist=new Wishlist;
          $wishlist->product_id=$request->product_id;
          //$wishlist->user_id=auth()->id();
-         $wishlist->user_id=1;
+         $wishlist->user_id=$request->user_id;
          $wishlist->save();
          return response()->json("succesfully store", 200);
     }
@@ -74,7 +74,7 @@ class WishlistController extends Controller
      */
     public function destroy($id)
     {
-        Wishlist::where('product_id','=',$id)->delete();
+        Wishlist::find($id)->delete();
         return response()->json("deleted is done", 200);
     }
 }

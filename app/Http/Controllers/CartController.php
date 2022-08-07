@@ -6,14 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Http\Resources\CartResource;
 use App\Http\Resources\CartCollection;
-
+use Illuminate\Support\Facades\DB;
 class CartController extends Controller
 {
 
-    // public function __construct()
-    // {
-    //     $this->middleware('auth:api');
-    // }
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
 
     /**
      * Display a listing of the resource.
@@ -38,7 +38,7 @@ class CartController extends Controller
             $cart->quantity=$request->quantity;
             $cart->product_id=$request->product_id;
            // $cart->user_id=auth()->id();
-           $cart->user_id=1;
+           $cart->user_id=$request->user_id;
             $cart->save();
             return response()->json("succesfully store", 200);
 
@@ -62,6 +62,21 @@ class CartController extends Controller
 
     }
 
+    public function calcprice($id){
+        $price = DB::table('cart')
+             ->select(DB::raw('sum(cart.quantity*cart.price) as totalprice'))
+             ->where('user_id', '=', $id)
+             ->get();
+             return $price;
+
+    }
+    public function totalitem($id){
+        $count = DB::table('cart')
+        ->select(DB::raw('sum(cart.quantity) as count'))
+        ->where('user_id', '=', $id)
+        ->get();
+        return $count ;
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -84,7 +99,11 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
-        Cart::where('product_id','=',$id)->delete();
+
+        Cart::find($id)->delete();
         return response()->json("deleted is done", 200);
+    }
+    public function cartProduct(){
+
     }
 }

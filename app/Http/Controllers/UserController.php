@@ -8,6 +8,10 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5e2f2cd9ea91b394df23bf05ddf43471bab00bbe
     // public function __construct()
     // {
     //     $this->middleware('auth:api');
@@ -27,6 +31,10 @@ class UserController extends Controller
 
 
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5e2f2cd9ea91b394df23bf05ddf43471bab00bbe
    /**
      * Update the specified resource in storage.
      *

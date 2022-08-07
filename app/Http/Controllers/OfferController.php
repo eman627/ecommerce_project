@@ -48,7 +48,7 @@ class OfferController extends Controller
      */
     public function show($id)
     {
-        return new OfferCollection(Offer::where('product_id','=',$id)->get());
+        return Offer::find($id);
 
     }
 

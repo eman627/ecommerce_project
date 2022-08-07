@@ -30,8 +30,12 @@ Route::apiResource('orders','App\Http\Controllers\OrderController');
 Route::apiResource('offeres','App\Http\Controllers\OfferController');
 Route::apiResource('wishlist','App\Http\Controllers\WishlistController');
 Route::apiResource('cart','App\Http\Controllers\CartController');
+Route::get('totalprice/{id}',['App\Http\Controllers\CartController','calcprice']);
+Route::get('totalitem/{id}',['App\Http\Controllers\CartController','totalitem']);
 // Route::post('login',['App\Http\Controllers\Auth\LoginController','login']);
 // Route::post('register',['App\Http\Controllers\Auth\RegisterController','register']);
+//  Route::post('orders','OrderController@store');
+
 Route::put('users/{id}',['App\Http\Controllers\UserController','update']);
 Route::get('users',['App\Http\Controllers\UserController','index']);
 Route::get('reviews',['App\Http\Controllers\ReviewController','index']);
@@ -41,10 +45,15 @@ Route::get('countries',['App\Http\Controllers\AddressController','getAllCountrie
 Route::get('states',['App\Http\Controllers\AddressController','getAllStates']);
 Route::get('cities/{id}',['App\Http\Controllers\AddressController','getAllCities']);
 
+<<<<<<< HEAD
 Route::controller(AuthController::class,)->group(function () {
 
 
     Route::post('login', 'login');
+=======
+Route::controller(AuthController::class)->group(function () {
+    Route::post('login', 'login')->name('login');
+>>>>>>> 5e2f2cd9ea91b394df23bf05ddf43471bab00bbe
     Route::post('register', 'register');
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
