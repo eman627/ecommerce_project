@@ -61,6 +61,7 @@ class CartController extends Controller
         return new CartCollection (Cart::where('user_id','=',$id)->get());
 
     }
+   
 
     public function calcprice($id){
         $price = DB::table('cart')

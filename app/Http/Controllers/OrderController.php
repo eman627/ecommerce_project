@@ -13,10 +13,10 @@ use App\Models\Product;
 
 class OrderController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth:api');
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -80,9 +80,13 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        return Order::find($id);
+        return new OrderResource( Order::find($id)) ;
+        // return Order::find($id);
     }
-
+    public function showorderofuser($user_id){
+         
+        return OrderResource::collection(Order::where('user_id', '=', $user_id)->get());
+    }
     /**
      * Update the specified resource in storage.
      *

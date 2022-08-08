@@ -27,6 +27,7 @@ Route::get('product/search/{keyword?}',['App\Http\Controllers\CategoryController
 Route::get('category/filter/{keyword?}',['App\Http\Controllers\CategoryController','filterByCategoryName']);
 Route::get('category/search/{keyword?}',['App\Http\Controllers\CategoryController','searchByCategoryName']);
 Route::apiResource('orders','App\Http\Controllers\OrderController');
+Route::get('order/{id}',['App\Http\Controllers\OrderController','showorderofuser']);
 Route::apiResource('offeres','App\Http\Controllers\OfferController');
 Route::apiResource('wishlist','App\Http\Controllers\WishlistController');
 Route::apiResource('cart','App\Http\Controllers\CartController');
