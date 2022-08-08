@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use \App\Http\Controllers\UserController;
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -45,25 +48,24 @@ Route::get('countries',['App\Http\Controllers\AddressController','getAllCountrie
 Route::get('states',['App\Http\Controllers\AddressController','getAllStates']);
 Route::get('cities/{id}',['App\Http\Controllers\AddressController','getAllCities']);
 
-<<<<<<< HEAD
-Route::controller(AuthController::class,)->group(function () {
 
-
-    Route::post('login', 'login');
-=======
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login')->name('login');
->>>>>>> 5e2f2cd9ea91b394df23bf05ddf43471bab00bbe
     Route::post('register', 'register');
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
 
 });
+Route::post('changepassword/{id}',['App\Http\Controllers\UserController','ChangePassword']);
+
 Route::get('payment',['App\Http\Controllers\PayPalController','payment'])->name("payment");
 Route::get('payment/cancel',['App\Http\Controllers\PayPalController','cancel'])->name("payment.cancel");
 Route::get('payment/success',['App\Http\Controllers\PayPalController','success'])->name("payment.success");
 Route::get('stripe',['App\Http\Controllers\StripePaymentController','stripe']);
 Route::post('stripe',['App\Http\Controllers\StripePaymentController','stripePost'])->name("stripe.post");
+
+Route::get('/login/{provider}', [AuthController::class,'redirectToProvider']);
+Route::get('/login/{provider}/callback', [AuthController::class,'handleProviderCallback']);
 
 
 

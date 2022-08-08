@@ -81,4 +81,8 @@ class User extends Authenticatable implements JWTSubject
     public function Roles(){
         return $this->hasOne(Role::class,"id","role_id");
     }
+    public function providers()
+    {
+        return $this->hasMany(Provider::class,'user_id','id');
+    }
 }
