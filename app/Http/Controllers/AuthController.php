@@ -19,6 +19,7 @@ class AuthController extends Controller
     {
 
 
+<<<<<<< HEAD
         // $this->middleware('auth:api', ['except' => ['login','register','verifyAccount']]);
 
         // $this->middleware('auth:api', ['except' => ['login','register','redirectToProvider','handleProviderCallback']]);
@@ -27,6 +28,14 @@ class AuthController extends Controller
 
         $this->middleware('auth:api', ['except' => ['login','register','redirectToProvider','handleProviderCallback','verifyAccount']]);
 
+=======
+        // $this->middleware('auth:api', ['except' => ['login','register','verifyAccount']]);
+
+        $this->middleware('auth:api', ['except' => ['login','register','verifyAccount','redirectToProvider','handleProviderCallback']]);
+        // $this->middleware('auth:api', ['except' => ['login','register','verifyAccount']]);
+
+        // $this->middleware('auth:api', ['except' => ['login','register','redirectToProvider','handleProviderCallback','verifyAccount']]);
+>>>>>>> a99b41e81bb0ae559fdbcb5ee66c6e9ff813d746
 
     }
 
