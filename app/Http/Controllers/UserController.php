@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
 use App\Models\User;
+use Auth;
 
 
 class UserController extends Controller
 {
-<<<<<<< HEAD
-=======
 
->>>>>>> 5e2f2cd9ea91b394df23bf05ddf43471bab00bbe
+
     // public function __construct()
     // {
     //     $this->middleware('auth:api');
@@ -31,10 +32,7 @@ class UserController extends Controller
 
 
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> 5e2f2cd9ea91b394df23bf05ddf43471bab00bbe
    /**
      * Update the specified resource in storage.
      *
@@ -48,17 +46,36 @@ class UserController extends Controller
         $user->update($request->all());
         return response()->json($user, 200);
     }
+
+
+
+    //ChangePassword
+    public function ChangePassword(Request $request, $id)
+    {
+
+        $user=User::find($id);
+
+        if (Hash::check($request->oldpassword, $user->password) && $request->newpassword===$request->confirmpassword) {
+            $user->password=Hash::make($request->newpassword);
+            return response()->json("Succes Update Password", 200);
+        }
+
+       return response()->json("Wrong data", 403);
+    }
+
+
+
     // show login button view
     public function socialLogin(){
         return view("login");
     }
 
     public function redirectToGoogle(){
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('facebook')->stateless()->redirect();
     }
 
     public function handleGoogleCallback(){
-        $socialuser = Socialite::driver('google')->user();
+        $socialuser = Socialite::driver('facebook')->stateless()->user();
         // dd($socialuser->getAvatar());
 
         $user      =   User::where(['email' => $socialuser->getEmail()])->first();
@@ -70,9 +87,11 @@ class UserController extends Controller
                 'password'      =>encrypt('123456dummy')
             ]);
         }
+       // $token = $user->createToken('token-name')->plainTextToken;
 
+        return response()->json($user, 200);
         // Auth::login($user);
-        return  ('welcom in home page');
+       // return  ('welcom in home page');
     }
 
 }

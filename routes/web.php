@@ -17,6 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/auth/login',[UserController::class,"sociallogin"]);
-Route::get('/auth/google/redirect',[UserController::class,"redirectToGoogle"]);
-Route::get('/google/callback', [UserController::class,"handleGoogleCallback"]);
+Route::get('/auth/facebook/redirect',[UserController::class,"redirectToGoogle"]);
+Route::get('/facebook/callback', [UserController::class,"handleGoogleCallback"]);
 // Route::get('payment',['App\Http\Controllers\PayPalController','payment'])->name("payment");
