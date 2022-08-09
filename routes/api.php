@@ -50,16 +50,13 @@ Route::get('states',['App\Http\Controllers\AddressController','getAllStates']);
 Route::get('cities/{id}',['App\Http\Controllers\AddressController','getAllCities']);
 
 
-<<<<<<< HEAD
+
+
 
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login')->name('login');
     Route::post('verifyAccount','verifyAccount')->name('verifyAccount');
-=======
-Route::controller(AuthController::class)->group(function () {
-    Route::post('login', 'login')->name('login');
->>>>>>> c314cfb40be6e564c67bac677bae489a71096f97
     Route::post('register', 'register');
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
