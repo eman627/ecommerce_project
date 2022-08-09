@@ -45,15 +45,12 @@ Route::get('countries',['App\Http\Controllers\AddressController','getAllCountrie
 Route::get('states',['App\Http\Controllers\AddressController','getAllStates']);
 Route::get('cities/{id}',['App\Http\Controllers\AddressController','getAllCities']);
 
-<<<<<<< HEAD
-Route::controller(AuthController::class,)->group(function () {
 
 
-    Route::post('login', 'login');
-=======
+
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login')->name('login');
->>>>>>> 5e2f2cd9ea91b394df23bf05ddf43471bab00bbe
+    Route::post('verifyAccount','verifyAccount')->name('verifyAccount');
     Route::post('register', 'register');
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
