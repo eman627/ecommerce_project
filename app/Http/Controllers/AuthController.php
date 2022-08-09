@@ -10,17 +10,24 @@ use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\JsonResponse;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','register','redirectToProvider','handleProviderCallback']]);
+
+        // $this->middleware('auth:api', ['except' => ['login','register','verifyAccount']]);
+
+        $this->middleware('auth:api', ['except' => ['login','register','redirectToProvider','handleProviderCallback','verifyAccount']]);
+
     }
 
     public function login()
     {
         $credentials = request(['email', 'password']);
+
 
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -79,17 +86,30 @@ public function register(Request $request){
         'address' => $request->address,
         'password' => Hash::make($request->password),
     ]);
-
+       //mail verification
+       $verification_code =random_int(100000, 999999);//Generate verification code
+       DB::table('user_verifications')->insert(['user_id'=>$user->id,'verification_code'=>$verification_code]);
+       $subject = "Please verify your email address.";
+       $email=$request->email;
+       $name=$request->name;
+       Mail::send('maile', ['name' =>$name , 'verification_code' => $verification_code],
+           function($mail) use ( $subject,$email,$name){
+               $mail->from('gradproj763@gmail.com', "From jumia");
+               $mail->to($email, $name);
+               $mail->subject($subject);
+           });
     $token = Auth::login($user);
     return response()->json([
         'status' => 'success',
-        'message' => 'User created successfully',
+        'message' => 'please check your email',
         'user' => $user,
         'authorisation' => [
             'token' => $token,
             'type' => 'bearer',
         ]
     ]);
+
+
 }
 
 public function logout()
@@ -121,6 +141,27 @@ protected function respondWithToken($token)
         'expires_in' => auth()->factory()->getTTL() * 60
     ]);
 }
+
+
+public function verifyAccount(Request $request ){
+    $user_id= DB::table('users')->where('email', $request->email)->value('id');
+    $check_verify = DB::table('user_verifications')->where('user_id', $user_id)->value('verification_code');
+    if($check_verify==$request->verification_code && $check_verify!=null && $user_id!=null) {
+        DB::table('users')
+        ->where('id', $user_id)  // find your user by their email
+        ->update(array('email_verified_at' => now()));  // update the record in the DB.
+        return response()->json([
+            'message'=>'account has been verified successfully',
+            'check_verify'=>$check_verify,
+            'user_id'=>$user_id
+        ]);
+    }
+    return response()->json([
+        'message'=>'your verfifcation code was wrong ,please try again'
+    ]);
+}
+
+
 
 
 //Social Login (FaceBook and GoogleGmail)
@@ -194,5 +235,6 @@ public function redirectToProvider($provider)
             return response()->json(['error' => 'Please login using facebook  or google'], 422);
         }
     }
+
 
 }
