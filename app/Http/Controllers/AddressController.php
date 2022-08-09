@@ -18,13 +18,13 @@ class AddressController extends Controller
 
     public function getAllStates()
     {
-        return State::where('status','=','1')->where('country_id','=',65)->get();
+        return State::where('country_id','=',65)->get();
     }
 
 
     public function getAllCities($id)
     {
-        return City::where('status','=','1')->where('state_id','=',$id)->get();
+        return City::where('state_id','=',$id)->get();
 
     }
 
