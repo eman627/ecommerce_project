@@ -47,14 +47,16 @@ class FilterControler extends Controller
     {
 
     $products=new ProductCollection(Product::all());
-
+    $brands=Product::select('brand')->get();
     if($request->keyword)
     {
        $products=new ProductCollection(Product::where('category_id','=',$request->keyword)->get());
+       $brands=Product::where('category_id','=',$request->keyword)->get('brand');
 
     }
 
-   return response()->json( ["data"=>$products], 200);
+   return response()->json( ["data"=>$products,
+"brand"=>$brands], 200);
     }
 
     public function filterByBrandName(Request $request)
