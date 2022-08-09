@@ -57,6 +57,8 @@ class UserController extends Controller
 
         if (Hash::check($request->oldpassword, $user->password) && $request->newpassword===$request->confirmpassword) {
             $user->password=Hash::make($request->newpassword);
+            $user->save();
+
             return response()->json("Succes Update Password", 200);
         }
 

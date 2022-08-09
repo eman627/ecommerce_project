@@ -18,13 +18,11 @@ class AuthController extends Controller
     public function __construct()
     {
 
-        $this->middleware('auth:api', ['except' => ['login','register','verifyAccount']]);
 
-        $this->middleware('auth:api', ['except' => ['login','register','redirectToProvider','handleProviderCallback']]);
 
+        $this->middleware('auth:api', ['except' => ['login','register','verifyAccount','redirectToProvider','handleProviderCallback']]);
         // $this->middleware('auth:api', ['except' => ['login','register','verifyAccount']]);
 
-        $this->middleware('auth:api', ['except' => ['login','register','redirectToProvider','handleProviderCallback','verifyAccount']]);
 
 
     }
