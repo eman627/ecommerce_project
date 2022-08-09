@@ -17,17 +17,17 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-<<<<<<< HEAD
-        $this->middleware('auth:api', ['except' => ['login','register','verifyAccount']]);
-=======
-        $this->middleware('auth:api', ['except' => ['login','register','redirectToProvider','handleProviderCallback']]);
->>>>>>> c314cfb40be6e564c67bac677bae489a71096f97
+
+        // $this->middleware('auth:api', ['except' => ['login','register','verifyAccount']]);
+
+        $this->middleware('auth:api', ['except' => ['login','register','redirectToProvider','handleProviderCallback','verifyAccount']]);
+
     }
 
     public function login()
     {
         $credentials = request(['email', 'password']);
-        
+
 
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -142,7 +142,7 @@ protected function respondWithToken($token)
     ]);
 }
 
-<<<<<<< HEAD
+
 public function verifyAccount(Request $request ){
     $user_id= DB::table('users')->where('email', $request->email)->value('id');
     $check_verify = DB::table('user_verifications')->where('user_id', $user_id)->value('verification_code');
@@ -162,7 +162,7 @@ public function verifyAccount(Request $request ){
 }
 
 
-=======
+
 
 //Social Login (FaceBook and GoogleGmail)
 public function redirectToProvider($provider)
@@ -235,6 +235,6 @@ public function redirectToProvider($provider)
             return response()->json(['error' => 'Please login using facebook  or google'], 422);
         }
     }
->>>>>>> c314cfb40be6e564c67bac677bae489a71096f97
+
 
 }
