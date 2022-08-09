@@ -1,21 +1,33 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Response;
+use GuzzleHttp\Exception\ClientException;
+use Illuminate\Http\JsonResponse;
+use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','register']]);
+<<<<<<< HEAD
+        $this->middleware('auth:api', ['except' => ['login','register','verifyAccount']]);
+=======
+        $this->middleware('auth:api', ['except' => ['login','register','redirectToProvider','handleProviderCallback']]);
+>>>>>>> c314cfb40be6e564c67bac677bae489a71096f97
     }
 
     public function login()
     {
         $credentials = request(['email', 'password']);
+        
 
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -74,17 +86,30 @@ public function register(Request $request){
         'address' => $request->address,
         'password' => Hash::make($request->password),
     ]);
-
+       //mail verification
+       $verification_code =random_int(100000, 999999);//Generate verification code
+       DB::table('user_verifications')->insert(['user_id'=>$user->id,'verification_code'=>$verification_code]);
+       $subject = "Please verify your email address.";
+       $email=$request->email;
+       $name=$request->name;
+       Mail::send('maile', ['name' =>$name , 'verification_code' => $verification_code],
+           function($mail) use ( $subject,$email,$name){
+               $mail->from('gradproj763@gmail.com', "From jumia");
+               $mail->to($email, $name);
+               $mail->subject($subject);
+           });
     $token = Auth::login($user);
     return response()->json([
         'status' => 'success',
-        'message' => 'User created successfully',
+        'message' => 'please check your email',
         'user' => $user,
         'authorisation' => [
             'token' => $token,
             'type' => 'bearer',
         ]
     ]);
+
+
 }
 
 public function logout()
@@ -116,5 +141,100 @@ protected function respondWithToken($token)
         'expires_in' => auth()->factory()->getTTL() * 60
     ]);
 }
+
+<<<<<<< HEAD
+public function verifyAccount(Request $request ){
+    $user_id= DB::table('users')->where('email', $request->email)->value('id');
+    $check_verify = DB::table('user_verifications')->where('user_id', $user_id)->value('verification_code');
+    if($check_verify==$request->verification_code && $check_verify!=null && $user_id!=null) {
+        DB::table('users')
+        ->where('id', $user_id)  // find your user by their email
+        ->update(array('email_verified_at' => now()));  // update the record in the DB.
+        return response()->json([
+            'message'=>'account has been verified successfully',
+            'check_verify'=>$check_verify,
+            'user_id'=>$user_id
+        ]);
+    }
+    return response()->json([
+        'message'=>'your verfifcation code was wrong ,please try again'
+    ]);
+}
+
+
+=======
+
+//Social Login (FaceBook and GoogleGmail)
+public function redirectToProvider($provider)
+    {
+        $validated = $this->validateProvider($provider);
+        if (!is_null($validated)) {
+            return $validated;
+        }
+
+        return Socialite::driver($provider)->stateless()->redirect();
+    }
+
+    /**
+     * Obtain the user information from Provider.
+     *
+     * @param $provider
+     * @return JsonResponse
+     */
+    public function handleProviderCallback($provider)
+    {
+        $validated = $this->validateProvider($provider);
+        if (!is_null($validated)) {
+            return $validated;
+        }
+        try {
+            $user = Socialite::driver($provider)->stateless()->user();
+        } catch (ClientException $exception) {
+            return response()->json(['error' => 'Invalid credentials provided.'], 422);
+        }
+
+        $userCreated = User::firstOrCreate(
+            [
+                'email' => $user->getEmail()
+            ],
+            [
+                'email_verified_at' => now(),
+                'name' => $user->getName(),
+                'role_id'           =>3,
+
+            ]
+        );
+        $userCreated->providers()->updateOrCreate(
+            [
+                'provider' => $provider,
+                'provider_id' => $user->getId(),
+            ],
+            [
+                'avatar' => $user->getAvatar()
+            ]
+        );
+        //$token = $userCreated->createToken('token-name')->plainTextToken;
+        $token = Auth::login($userCreated);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User created successfully',
+            'user' => $userCreated,
+            'authorisation' => [
+                'token' => $token,
+                'type' => 'bearer',
+            ]
+        ]);    }
+
+    /**
+     * @param $provider
+     * @return JsonResponse
+     */
+    protected function validateProvider($provider)
+    {
+        if (!in_array($provider, ['facebook', 'google'])) {
+            return response()->json(['error' => 'Please login using facebook  or google'], 422);
+        }
+    }
+>>>>>>> c314cfb40be6e564c67bac677bae489a71096f97
 
 }

@@ -59,7 +59,7 @@ class OrderController extends Controller
             // Product::where(['id' => $item['product_id'])
            $product= Product::find($item['product_id']);
            $product->update([
-            $product->quantity -=  $item['quantity']
+           $product->quantity -=  $item['quantity']
         ]);
         }
         Cart::where('user_id','=',$request->user_id)->delete();

@@ -8,9 +8,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 // use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject ,MustVerifyEmail
 {
     use  HasFactory, Notifiable;
 
@@ -80,5 +81,9 @@ class User extends Authenticatable implements JWTSubject
     }
     public function Roles(){
         return $this->hasOne(Role::class,"id","role_id");
+    }
+    public function providers()
+    {
+        return $this->hasMany(Provider::class,'user_id','id');
     }
 }
