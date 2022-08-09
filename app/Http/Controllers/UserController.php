@@ -60,7 +60,7 @@ class UserController extends Controller
             return response()->json("Succes Update Password", 200);
         }
 
-       return response()->json("Wrong data", 403);
+       return response()->json("Please Insert Valid Data", 403);
     }
 
 

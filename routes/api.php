@@ -26,9 +26,11 @@ Route::apiResource('products','App\Http\Controllers\ProductController');
 Route::apiResource('categories','App\Http\Controllers\CategoryController');
 Route::get('mainCategory',['App\Http\Controllers\CategoryController','mainCategory']);
 Route::get('subCategory/{id}',['App\Http\Controllers\CategoryController','subCategory']);
-Route::get('product/search/{keyword?}',['App\Http\Controllers\CategoryController','SearchByProductName']);
-Route::get('category/filter/{keyword?}',['App\Http\Controllers\CategoryController','filterByCategoryName']);
-Route::get('category/search/{keyword?}',['App\Http\Controllers\CategoryController','searchByCategoryName']);
+Route::get('product/search/{keyword?}',['App\Http\Controllers\FilterControler','SearchByProductName']);
+Route::get('category/filter/{keyword?}',['App\Http\Controllers\FilterControler','filterByCategoryName']);
+Route::get('category/search/{keyword?}',['App\Http\Controllers\FilterControler','searchByCategoryName']);
+Route::post('brand/filter',['App\Http\Controllers\FilterControler','filterByBrandName']);
+
 Route::apiResource('orders','App\Http\Controllers\OrderController');
 Route::apiResource('offeres','App\Http\Controllers\OfferController');
 Route::apiResource('wishlist','App\Http\Controllers\WishlistController');
