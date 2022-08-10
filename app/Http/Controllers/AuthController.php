@@ -20,7 +20,7 @@ class AuthController extends Controller
 
 
 
-        $this->middleware('auth:api', ['except' => ['login','register','verifyAccount','redirectToProvider','handleProviderCallback']]);
+        $this->middleware('auth:api', ['except' => ['login','register','verifyAccount','redirectToProvider','handleProviderCallback','forgetpassword','updatepassword']]);
         // $this->middleware('auth:api', ['except' => ['login','register','verifyAccount']]);
 
 
@@ -162,6 +162,37 @@ public function verifyAccount(Request $request ){
     return response()->json([
         'message'=>'your verfifcation code was wrong ,please try again'
     ]);
+}
+public function forgetpassword(Request $request ){
+    $user_id= DB::table('users')->where('email', $request->email)->value('id');
+    if($user_id!=null){
+      $subject = "forget your password";
+       $email=$request->email;
+       Mail::send('password', ['hi'],
+           function($mail) use ( $subject,$email){
+               $mail->from('gradproj763@gmail.com', "From jumia");
+               $mail->to($email);
+               $mail->subject($subject);
+           });
+           return response()->json([
+          
+          'user_id'=>$user_id
+      ]);
+
+    }
+    return response()->json([
+          
+           'message'=>'your email was wrong ,please try again'
+        ]);
+
+}
+public function updatepassword(Request $request, $id){
+    $user= User::find($id);
+    $user->password=Hash::make($request->password);
+    $user->save();
+    return response()->json('success');
+
+
 }
 
 
