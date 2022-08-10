@@ -8,6 +8,7 @@ use App\Models\Product;
 
 class FilterControler extends Controller
 {
+    // done
     public function SearchByProductName(Request $request)
     {
 
@@ -25,7 +26,7 @@ class FilterControler extends Controller
     //Search By Category Name
     public function searchByCategoryName(Request $request)
     {
-
+        //    done
     $products=new ProductCollection(Product::all());
 
     if($request->keyword)
@@ -42,6 +43,9 @@ class FilterControler extends Controller
 
     }
 
+
+
+    // ___________________________________ اللي جايين دول متعلقين ببعض  ______________________
     //Filter By Category Name
     public function filterByCategoryName(Request $request)
     {
@@ -70,5 +74,11 @@ class FilterControler extends Controller
 
     }
 
+
+    // filter by price
+
+
+
+    // filter by rating
 
 }
