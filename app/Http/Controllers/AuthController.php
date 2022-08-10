@@ -181,8 +181,8 @@ public function forgetpassword(Request $request ){
     if($user_id!=null){
       $subject = "forget your password";
        $email=$request->email;
-       Mail::send('password', ['hi'],
-           function($mail) use ( $subject,$email){
+       Mail::send('password', ['user_id' =>$user_id ],
+           function($mail) use ( $subject,$email,$user_id){
                $mail->from('gradproj763@gmail.com', "From jumia");
                $mail->to($email);
                $mail->subject($subject);
