@@ -53,6 +53,7 @@ Route::post('changepassword/{id}',['App\Http\Controllers\UserController','Change
 //API for Reviwes
 Route::get('reviews',['App\Http\Controllers\ReviewController','index']);
 Route::get('reviews/{id}',['App\Http\Controllers\ReviewController','show']);
+Route::get('review/{id}',['App\Http\Controllers\ReviewController','getProductToReviwe']);
 Route::post('reviews/{id}',['App\Http\Controllers\ReviewController','store']);
 
 //API for Addresses
