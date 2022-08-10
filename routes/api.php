@@ -68,6 +68,8 @@ Route::get('cities/{id}',['App\Http\Controllers\AddressController','getAllCities
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login')->name('login');
     Route::post('verifyAccount','verifyAccount')->name('verifyAccount');
+    Route::post('forgetpassword','forgetpassword')->name('forgetpassword');
+    Route::post('updatepassword/{id}','updatepassword')->name('updatepassword');
     Route::post('register', 'register');
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
