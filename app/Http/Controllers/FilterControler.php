@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use DB;
 
 class FilterControler extends Controller
 {
@@ -60,15 +61,20 @@ class FilterControler extends Controller
     public function filterByBrandName(Request $request)
     {
 
-    $data=$request->input();
 
-    foreach ($data as $key => $value) {
-       $items=new ProductCollection (Product::whereIn('brand',$data['selected_categories'])->get());
-    }
+        $items=DB::table('products') ->where("category_id",'=',$request->id)->when($request->selected_brands, function ($query, $selected_brands) {
+                    return $query->whereIn('brand',$selected_brands);
+                })->when($request->price, function ($query, $price)  {
+                    return $query->whereBetween('price',[$price['min'],$price['max']]);
+                })->get() ;
+
+
 
     return response()->json( $items, 200);
 
     }
+
+
 
 
 }
