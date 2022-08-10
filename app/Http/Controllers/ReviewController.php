@@ -56,7 +56,7 @@ class ReviewController extends Controller
     {
         $products=[];
         $orderID=Order::where('user_id','=',$id)->where('status','=','delivered')->get();
-        // return $orderID;
+        //return $orderID;
         if($orderID!="[]")
             {
                  foreach ($orderID as $key => $value)
@@ -72,37 +72,37 @@ class ReviewController extends Controller
                          $items=Product::whereIn('id', $products)->get();
                     }
 
-                return $items;
-             }
+                    return response()->json(["products"=> $items],200);
+                }
          else
 
-             return response()->json("You Do Not make any orders yet");
+             return response()->json("You Do Not make any orders yet",403);
 
 
     //
-    //     if($orderID!="[]")
-    //     {
-    //         foreach ($orderID as $key => $value) {
-    //             $productsID = orderdetails::where('order_id','=',$value->id)->get();
+        // if($orderID!="[]")
+        // {
+        //     foreach ($orderID as $key => $value) {
+        //         $productsID = orderdetails::where('order_id','=',$value->id)->get();
 
-    //             foreach ($productsID as $key => $value)
-    //             {
-    //                 array_push($products, $value->product_id);
-    //             }
+        //         foreach ($productsID as $key => $value)
+        //         {
+        //             array_push($products, $value->product_id);
+        //         }
 
 
-    //         }
-    //         //return array_unique($products);
-    //         foreach ( $products as $key => $value)
-    //         {
-    //             $items=Product::whereIn('id', $products)->get();
-    //          }
+        //     }
+        //     //return array_unique($products);
+        //     foreach ( $products as $key => $value)
+        //     {
+        //         $items=Product::whereIn('id', $products)->get();
+        //      }
 
-    //         return $items;
+        //     return $items;
 
-    //     }
-    //     else
-    //     return response()->json("You Do Not make any orders yet");
+        // }
+        // else
+        // return response()->json("You Do Not make any orders yet");
 
 
     }
