@@ -52,11 +52,11 @@ class FilterControler extends Controller
     {
 
     $products=new ProductCollection(Product::all());
-    $brands=Product::select('brand')->get();
+    $brands=Product::select('brand')->distinct()->get();
     if($request->keyword)
     {
        $products=new ProductCollection(Product::where('category_id','=',$request->keyword)->get());
-       $brands=Product::where('category_id','=',$request->keyword)->get('brand');
+       $brands=Product::where('category_id','=',$request->keyword)->distinct()->get('brand');
 
     }
 
