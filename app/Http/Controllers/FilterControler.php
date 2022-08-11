@@ -81,15 +81,11 @@ class FilterControler extends Controller
     }
 
 
-<<<<<<< HEAD
+
     // filter by price
 
 
 
     // filter by rating
 
-=======
-
-
->>>>>>> 368e9ecbde8fe591b2643b9c8eb112492a9da545
 }
