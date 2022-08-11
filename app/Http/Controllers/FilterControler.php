@@ -52,11 +52,11 @@ class FilterControler extends Controller
     {
 
     $products=new ProductCollection(Product::all());
-    $brands=Product::select('brand')->get();
+    $brands=Product::select('brand')->distinct()->get();
     if($request->keyword)
     {
        $products=new ProductCollection(Product::where('category_id','=',$request->keyword)->get());
-       $brands=Product::where('category_id','=',$request->keyword)->get('brand');
+       $brands=Product::where('category_id','=',$request->keyword)->distinct()->get('brand');
 
     }
 
@@ -68,7 +68,7 @@ class FilterControler extends Controller
     {
 
 
-        $items=DB::table('products') ->where("category_id",'=',$request->id)->when($request->selected_brands, function ($query, $selected_brands) {
+        $items=DB::table('products') ->whereIn("category_id",$request->id)->when($request->selected_brands, function ($query, $selected_brands) {
                     return $query->whereIn('brand',$selected_brands);
                 })->when($request->price, function ($query, $price)  {
                     return $query->whereBetween('price',[$price['min'],$price['max']]);
