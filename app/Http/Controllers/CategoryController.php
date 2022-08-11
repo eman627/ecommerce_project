@@ -10,7 +10,7 @@ use App\Http\Resources\ProductResource;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Models\Product;
-
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
@@ -101,12 +101,18 @@ class CategoryController extends Controller
             $category_id=$cat->id;
             $product= Product::where('category_id','=',$cat->id)->get();
             
-          
+            $brand=DB::table('products')->select('brand')->where('category_id','=',$cat->id)->distinct()->get();
+            
+            foreach ( $brand as $item){
+                if(!in_array($item , $brands)){
+                array_push($brands, $item); 
+                }
+            }
 
             foreach ($product as $item){
-                $brands=$item::select('brand')->distinct()->get();
-                //    if(!in_array($brand, $brands)){
-                //     array_push($brands, $brand);
+                // $email = DB::table('users')->where('name', 'John')->value('email');
+              //    if(!in_array($brand, $brands)){
+                //    
                 //    }
     
                  
