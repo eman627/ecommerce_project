@@ -91,7 +91,37 @@ class CategoryController extends Controller
      //Return All SubCategory
     public function subCategory($id)
     {
-        return new CategoryCollection(Category::where('category_id','=',$id)->get());
+
+        $products=[];
+         $brands=[];
+         $category_id=0;
+         $product=new Product();
+        $cats= new CategoryCollection(Category::where('category_id','=',$id)->get());
+        foreach ($cats as $cat ) {
+            $category_id=$cat->id;
+            $product= Product::where('category_id','=',$cat->id)->get();
+            
+          
+
+            foreach ($product as $item){
+                $brands=$item::select('brand')->get();
+                //    if(!in_array($brand, $brands)){
+                //     array_push($brands, $brand);
+                //    }
+    
+                 
+                    array_push($products, $item);
+                   
+            }
+           
+              
+           
+
+        }
+    
+    
+        return response()->json( ["subcat"=>$cats,"products"=>$products,
+        "brand"=>$brands], 200);
 
     }
 
