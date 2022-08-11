@@ -66,16 +66,11 @@ class FilterControler extends Controller
 
     public function filterByBrandName(Request $request)
     {
-
-
-        $items=DB::table('products') ->where("category_id",'=',$request->id)->when($request->selected_brands, function ($query, $selected_brands) {
+                $items=new ProductCollection(Product::whereIn("category_id",$request->id)->when($request->selected_brands, function ($query, $selected_brands) {
                     return $query->whereIn('brand',$selected_brands);
                 })->when($request->price, function ($query, $price)  {
                     return $query->whereBetween('price',[$price['min'],$price['max']]);
-                })->get() ;
-
-
-
+                })->get()) ;
     return response()->json( $items, 200);
 
     }
