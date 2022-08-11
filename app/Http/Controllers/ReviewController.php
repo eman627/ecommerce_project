@@ -70,7 +70,7 @@ class ReviewController extends Controller
                 //  foreach ( $products as $key => $value)
                 //     {
                          $items=Product::whereIn('id', $products)->get();
-                    
+
 
                     return response()->json(["products"=> $items],200);
                 }
