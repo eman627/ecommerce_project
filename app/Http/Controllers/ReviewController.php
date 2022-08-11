@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\ReviewCollection;
 use App\Http\Resources\ReviewResource;
+use App\Http\Resources\OrderdetailResource;
+
 use App\Models\Review;
 use App\Models\Order;
 use App\Models\Product;
@@ -56,20 +58,20 @@ class ReviewController extends Controller
     {
         $products=[];
         $orderID=Order::where('user_id','=',$id)->where('status','=','delivered')->get();
-        //return $orderID;
+        // return $orderID;
         if($orderID!="[]")
             {
                  foreach ($orderID as $key => $value)
                     {
                      foreach ($value->orderdetails as $key => $value)
                         {
-                            array_push($products, $value->product_id);
+                            array_push($products, $value->id);
                         }
                     }
-                //  return $products;
+              // return $products;
                 //  foreach ( $products as $key => $value)
                 //     {
-                         $items=Product::whereIn('id', $products)->get();
+                         $items=OrderdetailResource::collection(orderdetails::whereIn('id', $products)->get());
 
 
                     return response()->json(["products"=> $items],200);

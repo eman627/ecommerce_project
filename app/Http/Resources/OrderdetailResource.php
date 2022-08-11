@@ -16,6 +16,7 @@ class OrderdetailResource extends JsonResource
     {
         return[
             'product_id'=>$this->product_id,
+            'order'=>$this->order,
             'product_quantity'=>$this->quantity,
             'product_data'=>  Product::where('id', '=', $this->product_id)->get()
 
