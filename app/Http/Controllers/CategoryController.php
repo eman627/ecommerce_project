@@ -104,7 +104,7 @@ class CategoryController extends Controller
           
 
             foreach ($product as $item){
-                $brands=$item::select('brand')->get();
+                $brands=$item::select('brand')->distinct()->get();
                 //    if(!in_array($brand, $brands)){
                 //     array_push($brands, $brand);
                 //    }
@@ -114,7 +114,7 @@ class CategoryController extends Controller
                    
             }
            
-              
+            //   $brands=array_unique($brands);
            
 
         }
