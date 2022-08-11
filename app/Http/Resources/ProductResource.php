@@ -31,10 +31,11 @@ class ProductResource extends JsonResource
                 'role'=>$this->user->Roles->name
             ],
             'Reviews'=> new ReviewCollection ($this->Reviews),
-             'Offeres'=> $this->offeres,
-             'price_offer'=> ($this->offeres) ? $this->price -($this->offeres->percent * $this->price) /100 : null,
-             'remaining_time'=>($this->offeres) ? now()->diff($this->offeres->end_at):null
-
+             'Offeres'=>( $this->offeres && (now()->diffInDays($this->offeres->end_at))) ? [
+                'offeres'=>$this->offeres,
+                'price_offer'=>  $this->price -($this->offeres->percent * $this->price) /100 ,
+                'remaining_time'=>  now()->diff($this->offeres->end_at)
+             ] :null ,
         ];
     }
 }

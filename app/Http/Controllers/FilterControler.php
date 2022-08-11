@@ -71,7 +71,7 @@ class FilterControler extends Controller
                 })->when($request->price, function ($query, $price)  {
                     return $query->whereBetween('price',[$price['min'],$price['max']]);
                 })->get()) ;
-    return response()->json( $items, 200);
+                return response()->json( $items, 200);
 
     }
 
