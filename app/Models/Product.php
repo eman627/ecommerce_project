@@ -38,7 +38,7 @@ class Product extends Model
     }
     public function offeres()
     {
-        return $this->hasOne(Offer::class,'product_id','id');
+        return $this->hasMany(Offer::class,'product_id','id');
     }
     public function cart()
     {
