@@ -97,4 +97,23 @@ class ProductController extends Controller
         Product::find($id)->delete();
         return response()->json("deleted is done", 200);
     }
+
+
+
+
+    
+    //  to return not verified products
+     public function notVerifiedProducts(){
+        return new ProductCollection(Product::wherenull('product_verified_at')->get());
+     }
+
+
+
+
+  // to enable admin to verify certain product with id of product
+    public function verifyProduct( $id ){
+        $product=Product::find($id);
+        $product->update([$product->product_verified_at=now()]);
+        return response()->json("verification is done", 200);
+    }
 }
