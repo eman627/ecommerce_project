@@ -34,7 +34,12 @@ class OfferController extends Controller
      */
     public function store(Request $request)
     {
-
+        // $request->product_id
+      $exist_offeres=Offer::where('product_id','=',$request->product_id)->get();
+    //   return $exist_offeres;
+      foreach ($exist_offeres as $offer) {
+        if(now()->diffInDays($offer->end_at))  return  response()->json("there is a current offer for this product");
+    }
         $offer=new Offer;
         $offer->create($request->all());
        return response()->json("succesfully store", 200);
