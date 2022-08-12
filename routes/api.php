@@ -44,6 +44,9 @@ Route::get('category/filter/{keyword?}',['App\Http\Controllers\FilterControler',
 Route::get('category/search/{keyword?}',['App\Http\Controllers\FilterControler','searchByCategoryName']);
 Route::post('brand/filter',['App\Http\Controllers\FilterControler','filterByBrandName']);
 
+// API for offers filtered
+Route::get('productOffered',['App\Http\Controllers\OfferController','productOffered']);
+
 //API for User
 Route::put('users/{id}',['App\Http\Controllers\UserController','update']);
 Route::get('users',['App\Http\Controllers\UserController','index']);

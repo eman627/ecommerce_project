@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Resources\OfferResource;
 use App\Http\Resources\OfferCollection;
-
+use App\Http\Resources\ProductCollection;
 use App\Models\Offer;
+use App\Models\Product;
 
 
 
@@ -81,5 +82,16 @@ class OfferController extends Controller
     {
         Offer::find($id)->delete();
         return response()->json("deleted is done", 200);
+    }
+
+    public function productOffered(){
+        $filters=Offer::where("end_at",'>',now())->get("product_id");
+        // return $filters;
+         $products_offered=[];
+        foreach ($filters as $filter) {
+          $product= new ProductCollection(Product::where('id',"=",$filter->product_id)->get()) ;
+          array_push($products_offered, $product);
+        }
+        return $products_offered;
     }
 }
