@@ -8,7 +8,7 @@ use App\Http\Resources\OfferCollection;
 use App\Http\Resources\ProductCollection;
 use App\Models\Offer;
 use App\Models\Product;
-
+use DB;
 
 
 class OfferController extends Controller
@@ -94,4 +94,24 @@ class OfferController extends Controller
         }
         return $products_offered;
     }
+
+
+
+    // public function endAtTheSameTime(){
+
+    //        $offeres=Offer::
+    //        get()
+    //        ->groupBy('end_at') ;
+    //         // return  $offeres;
+    //        $products_offered=[];
+    //        $offeress=[];
+    //        foreach($offeres  as $offer){
+    //          if (count($offer))
+    //         array_push($offeress,$offer) ;
+
+    //         // $product= new ProductCollection(Product::where('id',"=",$offer->product_id)->get()) ;
+    //         // array_push($products_offered, $product);
+    //        }
+    // return $offeress;
+    // }
 }

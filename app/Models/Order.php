@@ -19,8 +19,9 @@ class Order extends Model
         'user_id',
         'comment',
         'price',
-        'payment_id'
-
+        'payment_id',
+       'name',
+       'phone' 
     ];
     public function orderdetails()
     {

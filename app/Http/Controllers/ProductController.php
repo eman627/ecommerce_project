@@ -9,7 +9,7 @@ use App\Models\Product;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\User;
 class ProductController extends Controller
 {
     // public function __construct()
@@ -37,7 +37,8 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
 
-    {  $file=$request->file('image');
+    {
+        $file=$request->file('image');
         $upload_path="public/image";
        $originalName= $file->getClientOriginalName();
        $file->move($upload_path,$originalName);
@@ -49,8 +50,13 @@ class ProductController extends Controller
          $product->quantity=$request->quantity;
          $product->category_id=$request->category_id;
          $product->user_id=$request->user_id;
-         $product->image=$originalName;
+        $role_id =User::where('id','=',$request->user_id)->value('role_id');
+        //  return $role_id;
+        if($role_id==1) $product->product_verified_at=now();
+        // $originalName
+         $product->image=$request->image;
          $product->save();
+
          return response()->json("succesfull stor", 200);
 
     }

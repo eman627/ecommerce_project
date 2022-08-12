@@ -46,6 +46,8 @@ Route::post('brand/filter',['App\Http\Controllers\FilterControler','filterByBran
 
 // API for offers filtered
 Route::get('productOffered',['App\Http\Controllers\OfferController','productOffered']);
+Route::get('endAtTheSameTime',['App\Http\Controllers\OfferController','endAtTheSameTime']);
+
 
 //API for User
 Route::put('users/{id}',['App\Http\Controllers\UserController','update']);

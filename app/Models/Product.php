@@ -20,7 +20,8 @@ class Product extends Model
         'quantity',
         'image',
         'category_id',
-        'user_id'
+        'user_id',
+        'product_verified_at'
 
 
     ];
