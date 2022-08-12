@@ -13,10 +13,10 @@ class FilterControler extends Controller
     public function SearchByProductName(Request $request)
     {
 
-    $products=new ProductCollection(Product::all());
+    $products=new ProductCollection(Product::whereNotNull('product_verified_at')->get());
     if($request->keyword)
     {
-       $products=new ProductCollection(Product::where('name','like','%'.$request->keyword.'%')->get());
+       $products=new ProductCollection(Product::where('name','like','%'.$request->keyword.'%')->whereNotNull('product_verified_at')->get());
 
     }
 
@@ -28,13 +28,13 @@ class FilterControler extends Controller
     public function searchByCategoryName(Request $request)
     {
         //    done
-    $products=new ProductCollection(Product::all());
+    $products=new ProductCollection(Product::whereNotNull('product_verified_at')->get());
 
     if($request->keyword)
     {
         $categoryId=Category::where('name','like','%'.$request->keyword.'%')->get('id');
         foreach ($categoryId as $key => $value) {
-            $products = new ProductCollection(Product::where('category_id','=',$categoryId[$key]->id)->get());
+            $products = new ProductCollection(Product::where('category_id','=',$categoryId[$key]->id)->whereNotNull('product_verified_at')->get());
 
         }
 
@@ -51,12 +51,12 @@ class FilterControler extends Controller
     public function filterByCategoryName(Request $request)
     {
 
-    $products=new ProductCollection(Product::all());
+    $products=new ProductCollection(Product::whereNotNull('product_verified_at')->get());
     $brands=Product::select('brand')->distinct()->get();
     if($request->keyword)
     {
-       $products=new ProductCollection(Product::where('category_id','=',$request->keyword)->get());
-       $brands=Product::where('category_id','=',$request->keyword)->distinct()->get('brand');
+       $products=new ProductCollection(Product::where('category_id','=',$request->keyword)->whereNotNull('product_verified_at')->get());
+       $brands=Product::where('category_id','=',$request->keyword)->whereNotNull('product_verified_at')->distinct()->get('brand');
 
     }
 
@@ -66,7 +66,7 @@ class FilterControler extends Controller
 
     public function filterByBrandName(Request $request)
     {
-                $items=new ProductCollection(Product::whereIn("category_id",$request->id)->when($request->selected_brands, function ($query, $selected_brands) {
+                $items=new ProductCollection(Product::whereNotNull('product_verified_at')->whereIn("category_id",$request->id)->when($request->selected_brands, function ($query, $selected_brands) {
                     return $query->whereIn('brand',$selected_brands);
                 })->when($request->price, function ($query, $price)  {
                     return $query->whereBetween('price',[$price['min'],$price['max']]);

@@ -51,12 +51,9 @@ class ProductController extends Controller
          $product->category_id=$request->category_id;
          $product->user_id=$request->user_id;
         $role_id =User::where('id','=',$request->user_id)->value('role_id');
-        //  return $role_id;
         if($role_id==1) $product->product_verified_at=now();
-        // $originalName
-         $product->image=$request->image;
+         $product->image=$originalName;
          $product->save();
-
          return response()->json("succesfull stor", 200);
 
     }
