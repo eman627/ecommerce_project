@@ -24,6 +24,8 @@ Route::apiResource('products','App\Http\Controllers\ProductController');
 //API For Product verification by admin
 Route::get('notVerifiedProducts',['App\Http\Controllers\ProductController','notVerifiedProducts']);
 Route::get('verifyProduct/{id}',['App\Http\Controllers\ProductController','verifyProduct']);
+Route::get('notVerifiedProduct_seller/{id}',['App\Http\Controllers\ProductController','notVerifiedProduct_seller']);
+Route::get('VerifiedProduct_seller/{id}',['App\Http\Controllers\ProductController','VerifiedProduct_seller']);
 
 // producterbyuser
 //API For Category

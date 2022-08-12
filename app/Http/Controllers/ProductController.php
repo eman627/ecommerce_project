@@ -101,8 +101,8 @@ class ProductController extends Controller
 
 
 
-    
-    //  to return not verified products
+
+    //  to return not verified products for admin
      public function notVerifiedProducts(){
         return new ProductCollection(Product::wherenull('product_verified_at')->get());
      }
@@ -116,4 +116,15 @@ class ProductController extends Controller
         $product->update([$product->product_verified_at=now()]);
         return response()->json("verification is done", 200);
     }
+
+ //  to return not verified products for admin  for each seller
+ public function notVerifiedProduct_seller($id){
+    return new ProductCollection(Product::wherenull('product_verified_at')->where('user_id','=',$id)->get());
+ }
+
+
+ //  to return  verified products for admin  for each seller
+ public function VerifiedProduct_seller($id){
+    return new ProductCollection(Product::whereNotNull('product_verified_at')->where('user_id','=',$id)->get());
+ }
 }
