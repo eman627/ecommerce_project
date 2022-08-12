@@ -31,7 +31,7 @@ class ProductResource extends JsonResource
                 'role'=>$this->user->Roles->name
             ],
             'Reviews'=> new ReviewCollection ($this->Reviews),
-             'Offeres'=>( $this->offeres && (now()->diffInDays($this->offeres[count($this->offeres)-1]->end_at))) ? [
+             'Offeres'=>( count($this->offeres)!=0 && (now()->diffInDays($this->offeres[count($this->offeres)-1]->end_at))) ? [
                 'offeres'=>$this->offeres[count($this->offeres)-1],
                 'price_offer'=>  $this->price -($this->offeres[count($this->offeres)-1]->percent * $this->price) /100 ,
                 'remaining_time'=>  now()->diff($this->offeres[count($this->offeres)-1]->end_at)
