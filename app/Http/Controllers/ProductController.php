@@ -71,7 +71,10 @@ class ProductController extends Controller
     {
         return new ProductResource(Product::find($id));
     }
+  public function producterbyuser($id){
+    return new ProductCollection(Product::where('user_id','=',$id)->get());
 
+  }
     /**
      * Update the specified resource in storage.
      *

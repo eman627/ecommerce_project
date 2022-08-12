@@ -21,8 +21,9 @@ use \App\Http\Controllers\UserController;
 
 //API For Product
 Route::apiResource('products','App\Http\Controllers\ProductController');
-
+// producterbyuser
 //API For Category
+Route::get('producterbyuser/{id}',['App\Http\Controllers\ProductController','producterbyuser']);
 Route::apiResource('categories','App\Http\Controllers\CategoryController');
 Route::get('mainCategory',['App\Http\Controllers\CategoryController','mainCategory']);
 Route::get('subCategory/{id}',['App\Http\Controllers\CategoryController','subCategory']);
