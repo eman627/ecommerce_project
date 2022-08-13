@@ -18,7 +18,7 @@ class OrderdetailResource extends JsonResource
             'product_id'=>$this->product_id,
             'order'=>$this->order,
             'product_quantity'=>$this->quantity,
-            'product_data'=>  Product::where('id', '=', $this->product_id)->get()
+            'product_data'=> new ProductCollection( Product::where('id', '=', $this->product_id)->get())
 
             // 'product_data'=>ProductResource::collection($this->product),
             //  'order'=>new OrderResource($this->order_id)
