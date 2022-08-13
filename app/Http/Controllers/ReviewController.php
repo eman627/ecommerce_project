@@ -11,7 +11,7 @@ use App\Models\Review;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\orderdetails;
-
+use DB;
 
 
 class ReviewController extends Controller
@@ -36,7 +36,7 @@ class ReviewController extends Controller
     {
        $review=new Review;
        $review->create($request->all());
-       $product=orderdetails::where( "order_id","=",$request->id);
+       $product=orderdetails::where( "order_id","=",$request->order_id)->where( "product_id","=",$request->product_id)->first();
        $product->update([$product->reviwed_at=now()]);
        return response()->json("succesfull stor", 200);
 
