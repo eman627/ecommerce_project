@@ -16,6 +16,7 @@ class ProductResource extends JsonResource
     {
         return[
             'id'=>$this->id,
+            'verified'=>$this->product_verified_at,
             'name'=>$this->name,
             'price'=>$this->price,
             'description'=>$this->description,
@@ -36,6 +37,9 @@ class ProductResource extends JsonResource
                 'price_offer'=>  $this->price -($this->offeres[count($this->offeres)-1]->percent * $this->price) /100 ,
                 'remaining_time'=>  now()->diff($this->offeres[count($this->offeres)-1]->end_at)
              ] :null ,
+
         ];
+
+
     }
 }

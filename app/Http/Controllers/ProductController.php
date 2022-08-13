@@ -9,7 +9,8 @@ use App\Models\Product;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\User;
+use DB;
 class ProductController extends Controller
 {
     // public function __construct()
@@ -37,7 +38,8 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
 
-    {  $file=$request->file('image');
+    {
+        $file=$request->file('image');
         $upload_path="public/image";
        $originalName= $file->getClientOriginalName();
        $file->move($upload_path,$originalName);
@@ -49,6 +51,8 @@ class ProductController extends Controller
          $product->quantity=$request->quantity;
          $product->category_id=$request->category_id;
          $product->user_id=$request->user_id;
+        $role_id =User::where('id','=',$request->user_id)->value('role_id');
+        if($role_id==1) $product->product_verified_at=now();
          $product->image=$originalName;
          $product->save();
          return response()->json("succesfull stor", 200);
@@ -94,4 +98,54 @@ class ProductController extends Controller
         Product::find($id)->delete();
         return response()->json("deleted is done", 200);
     }
+
+
+
+
+
+    //  to return not verified products for admin
+     public function notVerifiedProducts(){
+        return new ProductCollection(Product::wherenull('product_verified_at')->get());
+     }
+
+
+
+
+  // to enable admin to verify certain product with id of product
+    public function verifyProduct( $id ){
+        $product=Product::find($id);
+        $product->update([$product->product_verified_at=now()]);
+        return response()->json("verification is done", 200);
+    }
+
+ //  to return not verified products for admin  for each seller
+ public function notVerifiedProduct_seller($id){
+    return new ProductCollection(Product::wherenull('product_verified_at')->where('user_id','=',$id)->get());
+ }
+
+
+ //  to return  verified products for admin  for each seller
+ public function VerifiedProduct_seller($id){
+    return new ProductCollection(Product::whereNotNull('product_verified_at')->where('user_id','=',$id)->get());
+ }
+
+
+
+//  to get best seller products
+  public function bestSeller(){
+    $counts = DB::table('orderdetails')->select(DB::raw('count(*) as selling_count, product_id'))
+    ->groupBy('product_id')
+    ->get();
+    $product_ids=[];
+    foreach ( $counts as  $count )
+    {
+        if( $count->selling_count >5)
+        {
+            array_push($product_ids, new ProductCollection(Product::where('id','=',$count->product_id)->get()));
+
+        }
+    }
+
+    return $product_ids;
+  }
 }
