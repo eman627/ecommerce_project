@@ -27,6 +27,8 @@ Route::get('verifyProduct/{id}',['App\Http\Controllers\ProductController','verif
 Route::get('notVerifiedProduct_seller/{id}',['App\Http\Controllers\ProductController','notVerifiedProduct_seller']);
 Route::get('VerifiedProduct_seller/{id}',['App\Http\Controllers\ProductController','VerifiedProduct_seller']);
 Route::get('bestSeller',['App\Http\Controllers\ProductController','bestSeller']);
+Route::get('relatedProduct/{id}',['App\Http\Controllers\ProductController','relatedProduct']);
+Route::get('randomProduct',['App\Http\Controllers\ProductController','randomProduct']);
 
 // producterbyuser
 //API For Category

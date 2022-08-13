@@ -46,7 +46,7 @@ class FilterControler extends Controller
 
 
 
-    // ___________________________________ اللي جايين دول متعلقين ببعض  ______________________
+
     //Filter By Category Name
     public function filterByCategoryName(Request $request)
     {
