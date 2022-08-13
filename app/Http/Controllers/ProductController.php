@@ -148,4 +148,28 @@ class ProductController extends Controller
 
     return $product_ids;
   }
-}
+
+
+
+  //  to get related product 
+
+  public function relatedProduct($id){
+    $products= Product::whereNotNull('product_verified_at')->where('category_id','=',$id)->get();
+    $related_products=[];
+    $arr_indexs=[];
+    foreach($products as $product){
+        do{
+      $index= random_int(0,count($products)-1);
+    }while( in_array($index,$arr_indexs));
+      array_push($arr_indexs,$index);
+      $product=$products[$index];
+      if(count( $related_products)<6){
+        array_push($related_products, $product);
+      }
+    }
+        return $related_products;
+    }
+
+
+  }
+
