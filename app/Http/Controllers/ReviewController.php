@@ -32,11 +32,11 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(Request $request)
     {
        $review=new Review;
        $review->create($request->all());
-       $product=orderdetails::where( "order_id","=",$id);
+       $product=orderdetails::where( "order_id","=",$request->id);
        $product->update([$product->reviwed_at=now()]);
        return response()->json("succesfull stor", 200);
 
