@@ -12,7 +12,8 @@ class Review extends Model
         'feedback',
         'user_id',
         'product_id',
-        'rating'
+        'rating',
+        'order_id'
     ];
     public function Product(){
         return $this->belongsTo(Product::class,"product_id","id");
