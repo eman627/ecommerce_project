@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\Order;
-
+use DB;
 class OrderResource extends JsonResource
 {
     /**
@@ -21,11 +21,11 @@ class OrderResource extends JsonResource
             'user_id'=>$this->user->id,
             'price'=>$this->price,
             'comment'=>$this->comment,
-            'address_state'=>$this->address_state,
-            'address_city'=>$this->address_city,
+            'address_state'=>DB::table('states')->where('id','=',$this->address_state)->get('name'),
+            'address_city'=>DB::table('cities')->where('id','=',$this->address_city)->get('name'),
             'address_street'=>$this->address_street,
             'copoun'=>$this->copoun,
-            'payment_id'=>$this->payment_id,
+            'payment_id'=>$this->payment,
             'status'=>$this->status,
 
             'created_at'=>$this->created_at,

@@ -31,5 +31,9 @@ class Order extends Model
     {
         return $this->belongsTo(User::class)->withDefault();
     }
+    public function payment()
+    {
+        return $this->belongsTo(Payment::class);
+    }
 
 }
