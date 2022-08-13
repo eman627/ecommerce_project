@@ -151,10 +151,11 @@ class ProductController extends Controller
 
 
 
-  //  to get related product 
+  //  to get related product
 
   public function relatedProduct($id){
-    $products= Product::whereNotNull('product_verified_at')->where('category_id','=',$id)->get();
+
+    $products= new ProductCollection(Product::whereNotNull('product_verified_at')->where('category_id','=',$id)->get());
     $related_products=[];
     $arr_indexs=[];
     foreach($products as $product){
@@ -170,6 +171,31 @@ class ProductController extends Controller
         return $related_products;
     }
 
+    //  to get random product
+    public function randomProduct(){
+        $products= new ProductCollection(Product::whereNotNull('product_verified_at')->get());
+        // return  $products;
+        $random_products=[];
+        $arr_indexs=[];
+        foreach($products as $product){
+            // return $product->category_id;
+            do{
+          $index= random_int(0,count($products)-1);
+        }while( in_array($index,$arr_indexs));
+          array_push($arr_indexs,$index);
+          $product=$products[$index];
+          if(count( $random_products)<6){
+            array_push($random_products, $product);
+          }
+        }
+            return $random_products;
+        }
 
-  }
+
+    }
+
+
+    //  to get recent viewd product
+
+
 
