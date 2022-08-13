@@ -173,6 +173,7 @@ class ProductController extends Controller
         return $related_products;
     }
 
+
     //  to get random product
     public function randomProduct(){
         $products= new ProductCollection(Product::whereNotNull('product_verified_at')->get());
@@ -214,8 +215,8 @@ class ProductController extends Controller
     }
 
      //  to get recent viewd product
-     
 
+   
     }
 
 

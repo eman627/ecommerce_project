@@ -88,11 +88,22 @@ class OfferController extends Controller
         $filters=Offer::where("end_at",'>',now())->get("product_id");
         // return $filters;
          $products_offered=[];
+         $arr_indexs=[];
+
         foreach ($filters as $filter) {
+            do{
+                $index= random_int(0,count($filters)-1);
+              }while( in_array($index,$arr_indexs));
+                array_push($arr_indexs,$index);
+
+                $filter=$filters[$index];
           $product= new ProductCollection(Product::where('id',"=",$filter->product_id)->get()) ;
+          if(count( $products_offered)<6){
           array_push($products_offered, $product);
+          }
         }
         return $products_offered;
+
     }
 
 
@@ -106,7 +117,7 @@ class OfferController extends Controller
     }
 
 
-    
+
     // flash sale
 
     // public function endAtTheSameTime(){
