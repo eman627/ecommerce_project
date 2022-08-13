@@ -96,6 +96,18 @@ class OfferController extends Controller
     }
 
 
+    //   to get offer for each seller
+    public function  getAllOffers($id){
+        $products=Product::where("user_id","=",$id)->get("id");
+        // return $products;
+        $product_offered=Offer::whereIn("product_id",$products)->get();
+        return   $product_offered ;
+
+    }
+
+
+    
+    // flash sale
 
     // public function endAtTheSameTime(){
 

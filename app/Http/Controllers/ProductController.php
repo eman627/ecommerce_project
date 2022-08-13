@@ -194,25 +194,32 @@ class ProductController extends Controller
         }
 
     // to get finance of seller
-    // public function getMoney($id) {
-    //       $products=Product::where("user_id","=",$id)->get("id");
-    //     //   return $products;
-    //       $order_ids=Order::where("status","=","delivered")->get("id");
-    //     //   return $order_ids;
-    //       $order_details=orderdetails::whereIn("order_id",$order_ids)->get();
-    //       return    $order_details;
+    public function getMoney($id) {
+          $products=Product::where("user_id","=",$id)->get("id");
+          // return $products;
+          $order_ids=Order::where("status","=","delivered")->get("id");
+          // return $order_ids;
+          $order_details=orderdetails::whereIn("order_id",$order_ids)->whereIn("product_id", $products)->get();
+          $totla_money=0;
+          foreach($order_details as $product){
+            $totla_money+=$product->quantity * ($product->price - (15* $product->price)/100);
 
-    // }
+          }
+          return  response()->json(
+           [ "order_details" =>  $order_details,
+             "totla_money" => $totla_money
 
+          ], 200);
 
+    }
 
-
-
+     //  to get recent viewd product
+     
 
     }
 
 
-    //  to get recent viewd product
+
 
 
 

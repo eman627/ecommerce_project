@@ -43,6 +43,7 @@ Route::apiResource('orders','App\Http\Controllers\OrderController');
 Route::get('order/{id}',['App\Http\Controllers\OrderController','showorderofuser']);
 Route::apiResource('offeres','App\Http\Controllers\OfferController');
 Route::apiResource('wishlist','App\Http\Controllers\WishlistController');
+Route::get('getAllOffers/{id}',['App\Http\Controllers\OfferController','getAllOffers']);
 
 //API Cart
 Route::apiResource('cart','App\Http\Controllers\CartController');
