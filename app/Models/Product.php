@@ -20,7 +20,8 @@ class Product extends Model
         'quantity',
         'image',
         'category_id',
-        'user_id'
+        'user_id',
+        'product_verified_at'
 
 
     ];
@@ -38,7 +39,7 @@ class Product extends Model
     }
     public function offeres()
     {
-        return $this->hasOne(Offer::class,'product_id','id');
+        return $this->hasMany(Offer::class,'product_id','id');
     }
     public function cart()
     {

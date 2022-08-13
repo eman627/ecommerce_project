@@ -21,8 +21,19 @@ use \App\Http\Controllers\UserController;
 
 //API For Product
 Route::apiResource('products','App\Http\Controllers\ProductController');
+//API For Product verification by admin
+Route::get('notVerifiedProducts',['App\Http\Controllers\ProductController','notVerifiedProducts']);
+Route::get('verifyProduct/{id}',['App\Http\Controllers\ProductController','verifyProduct']);
+Route::get('notVerifiedProduct_seller/{id}',['App\Http\Controllers\ProductController','notVerifiedProduct_seller']);
+Route::get('VerifiedProduct_seller/{id}',['App\Http\Controllers\ProductController','VerifiedProduct_seller']);
+Route::get('bestSeller',['App\Http\Controllers\ProductController','bestSeller']);
+Route::get('relatedProduct/{id}',['App\Http\Controllers\ProductController','relatedProduct']);
+Route::get('randomProduct',['App\Http\Controllers\ProductController','randomProduct']);
+Route::get('getMoney/{id}',['App\Http\Controllers\ProductController','getMoney']);
 
+// producterbyuser
 //API For Category
+Route::get('producterbyuser/{id}',['App\Http\Controllers\ProductController','producterbyuser']);
 Route::apiResource('categories','App\Http\Controllers\CategoryController');
 Route::get('mainCategory',['App\Http\Controllers\CategoryController','mainCategory']);
 Route::get('subCategory/{id}',['App\Http\Controllers\CategoryController','subCategory']);
@@ -43,6 +54,11 @@ Route::get('product/search/{keyword?}',['App\Http\Controllers\FilterControler','
 Route::get('category/filter/{keyword?}',['App\Http\Controllers\FilterControler','filterByCategoryName']);
 Route::get('category/search/{keyword?}',['App\Http\Controllers\FilterControler','searchByCategoryName']);
 Route::post('brand/filter',['App\Http\Controllers\FilterControler','filterByBrandName']);
+
+// API for offers filtered
+Route::get('productOffered',['App\Http\Controllers\OfferController','productOffered']);
+Route::get('endAtTheSameTime',['App\Http\Controllers\OfferController','endAtTheSameTime']);
+
 
 //API for User
 Route::put('users/{id}',['App\Http\Controllers\UserController','update']);

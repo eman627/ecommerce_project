@@ -45,6 +45,8 @@ class OrderController extends Controller
         $order->address_street=$request->address_street;
         $order->copoun=$request->copoun;
         $order->user_id=$request->user_id;
+        $order->name=$request->name;
+        $order->phone=$request->phone;
         $order->comment=$request->comment;
         $order->price=$request->price;
         $order->payment_id=$request->payment_id;
@@ -55,6 +57,7 @@ class OrderController extends Controller
             $orderItem->order_id = $order->id;
             $orderItem->product_id = $item['product_id'];
             $orderItem->quantity = $item['quantity'];
+            $orderItem->price = $item['price'];
             $orderItem->save();
             // Product::where(['id' => $item['product_id'])
            $product= Product::find($item['product_id']);
@@ -84,7 +87,7 @@ class OrderController extends Controller
         // return Order::find($id);
     }
     public function showorderofuser($user_id){
-         
+
         return OrderResource::collection(Order::where('user_id', '=', $user_id)->get());
     }
     /**
@@ -116,4 +119,9 @@ class OrderController extends Controller
     {
         return response()->json(["message=>not allow to delete order"], 403);
     }
+
+    // public function trackingOrder(Request $request){
+    //     Order::where('order_id', '=',$request->order_id)->get();
+    //     $items=orderdetails::where('order_id', '=',$request->order_id)->get();
+    // }
 }

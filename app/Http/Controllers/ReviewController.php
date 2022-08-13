@@ -32,10 +32,12 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
        $review=new Review;
        $review->create($request->all());
+       $product=orderdetails::where( "order_id","=",$id);
+       $product->update([$product->reviwed_at=now()]);
        return response()->json("succesfull stor", 200);
 
     }
@@ -71,7 +73,7 @@ class ReviewController extends Controller
               // return $products;
                 //  foreach ( $products as $key => $value)
                 //     {
-                         $items=OrderdetailResource::collection(orderdetails::whereIn('id', $products)->get());
+                         $items=OrderdetailResource::collection(orderdetails::wherenull('reviwed_at')->whereIn('id', $products)->get());
 
 
                     return response()->json(["products"=> $items],200);

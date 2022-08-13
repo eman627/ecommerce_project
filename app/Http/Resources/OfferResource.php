@@ -19,12 +19,12 @@ class OfferResource extends JsonResource
     public function toArray($request)
     {
         return[
+                'id'=>$this->id,
+                'end_at'=>$this->end_at,
+                'percent'=>$this->percent,
+                 //'product_id'=>$this->product_id,
+                'product'=>$this->products
 
-            'id'=>$this->id,
-            'end_at'=>$this->end_at,
-            'percent'=>$this->percent,
-            //'product_id'=>$this->product_id,
-            'product'=>$this->products
 
         ];
     }

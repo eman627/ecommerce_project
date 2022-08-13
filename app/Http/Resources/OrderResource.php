@@ -27,6 +27,12 @@ class OrderResource extends JsonResource
             'copoun'=>$this->copoun,
             'payment_id'=>$this->payment,
             'status'=>$this->status,
+
+            'created_at'=>$this->created_at,
+
+            'name'=>$this->name,
+            'phone'=>$this->phone,
+
             'user'=>[
                 'user_id'=>$this->user->id,
                 'user_name'=>$this->user->name,
