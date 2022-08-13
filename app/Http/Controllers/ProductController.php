@@ -8,6 +8,8 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Models\Order;
+use App\Models\orderdetails;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use DB;
@@ -191,11 +193,28 @@ class ProductController extends Controller
             return $random_products;
         }
 
+    // to get finance of seller
+    // public function getMoney($id) {
+    //       $products=Product::where("user_id","=",$id)->get("id");
+    //     //   return $products;
+    //       $order_ids=Order::where("status","=","delivered")->get("id");
+    //     //   return $order_ids;
+    //       $order_details=orderdetails::whereIn("order_id",$order_ids)->get();
+    //       return    $order_details;
+
+    // }
+
+
+
+
+
 
     }
 
 
     //  to get recent viewd product
+
+
 
 
 

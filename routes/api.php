@@ -29,6 +29,7 @@ Route::get('VerifiedProduct_seller/{id}',['App\Http\Controllers\ProductControlle
 Route::get('bestSeller',['App\Http\Controllers\ProductController','bestSeller']);
 Route::get('relatedProduct/{id}',['App\Http\Controllers\ProductController','relatedProduct']);
 Route::get('randomProduct',['App\Http\Controllers\ProductController','randomProduct']);
+Route::get('getMoney/{id}',['App\Http\Controllers\ProductController','getMoney']);
 
 // producterbyuser
 //API For Category

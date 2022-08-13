@@ -46,7 +46,7 @@ class OrderController extends Controller
         $order->copoun=$request->copoun;
         $order->user_id=$request->user_id;
         $order->name=$request->name;
-        $order->phone=$request->phone; 
+        $order->phone=$request->phone;
         $order->comment=$request->comment;
         $order->price=$request->price;
         $order->payment_id=$request->payment_id;
@@ -57,6 +57,7 @@ class OrderController extends Controller
             $orderItem->order_id = $order->id;
             $orderItem->product_id = $item['product_id'];
             $orderItem->quantity = $item['quantity'];
+            $orderItem->price = $item['price'];
             $orderItem->save();
             // Product::where(['id' => $item['product_id'])
            $product= Product::find($item['product_id']);
