@@ -10,6 +10,7 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use DB;
 class ProductController extends Controller
 {
     // public function __construct()
@@ -127,4 +128,24 @@ class ProductController extends Controller
  public function VerifiedProduct_seller($id){
     return new ProductCollection(Product::whereNotNull('product_verified_at')->where('user_id','=',$id)->get());
  }
+
+
+
+//  to get best seller products
+  public function bestSeller(){
+    $counts = DB::table('orderdetails')->select(DB::raw('count(*) as selling_count, product_id'))
+    ->groupBy('product_id')
+    ->get();
+    $product_ids=[];
+    foreach ( $counts as  $count )
+    {
+        if( $count->selling_count >5)
+        {
+            array_push($product_ids, new ProductCollection(Product::where('id','=',$count->product_id)->get()));
+
+        }
+    }
+
+    return $product_ids;
+  }
 }
