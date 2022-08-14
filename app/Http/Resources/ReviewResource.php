@@ -21,7 +21,8 @@ class ReviewResource extends JsonResource
             'user_name'=>$this->user->name,
             'product_name'=>$this->Product->name,
             'user_id'=>$this->user_id,
-            'product_id'=>$this->product_id
+            'product_id'=>$this->product_id,
+            'created_at'=>$this->created_at
 
         ];
     }
