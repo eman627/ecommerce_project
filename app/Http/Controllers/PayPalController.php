@@ -70,6 +70,7 @@ class PayPalController extends Controller
 
         if (in_array(strtoupper($response['ACK']), ['SUCCESS', 'SUCCESSWITHWARNING'])) {
             return response()->json( 'success') ;
+            
 
         }
 

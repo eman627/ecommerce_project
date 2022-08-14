@@ -15,6 +15,7 @@ class Cart extends Model
         'price',
         'user_id',
         'product_id'
+        
     ];
     public function products()
     {

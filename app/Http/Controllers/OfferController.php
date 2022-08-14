@@ -89,7 +89,7 @@ class OfferController extends Controller
         // return $filters;
          $products_offered=[];
          $arr_indexs=[];
-
+        //  return $filters;
         foreach ($filters as $filter) {
             do{
                 $index= random_int(0,count($filters)-1);
@@ -97,6 +97,7 @@ class OfferController extends Controller
                 array_push($arr_indexs,$index);
 
                 $filter=$filters[$index];
+                // return $filter;
           $product= new ProductCollection(Product::where('id',"=",$filter->product_id)->get()) ;
           if(count( $products_offered)<6){
           array_push($products_offered, $product);
