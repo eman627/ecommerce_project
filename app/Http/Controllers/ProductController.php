@@ -138,10 +138,11 @@ class ProductController extends Controller
     $counts = DB::table('orderdetails')->select(DB::raw('count(*) as selling_count, product_id'))
     ->groupBy('product_id')
     ->get();
+    // return $counts;
     $product_ids=[];
     foreach ( $counts as  $count )
     {
-        if( $count->selling_count >5)
+        if( $count->selling_count >2)
         {
             array_push($product_ids, new ProductCollection(Product::where('id','=',$count->product_id)->get()));
 
