@@ -41,6 +41,7 @@ Route::get('subCategory/{id}',['App\Http\Controllers\CategoryController','subCat
 //API For Orders && Offers && Wishlistes
 Route::apiResource('orders','App\Http\Controllers\OrderController');
 Route::get('order/{id}',['App\Http\Controllers\OrderController','showorderofuser']);
+Route::post('getCopoun',['App\Http\Controllers\OrderController','getCopoun']);
 Route::apiResource('offeres','App\Http\Controllers\OfferController');
 Route::apiResource('wishlist','App\Http\Controllers\WishlistController');
 Route::get('getAllOffers/{id}',['App\Http\Controllers\OfferController','getAllOffers']);

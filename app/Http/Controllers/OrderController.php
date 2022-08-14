@@ -10,6 +10,7 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\orderdetails;
 use App\Models\Product;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -119,6 +120,25 @@ class OrderController extends Controller
     {
         return response()->json(["message=>not allow to delete order"], 403);
     }
+
+//    for getting
+     public function  getCopoun(Request $request){
+        $copoun=random_int(100000, 999999);//Generate copoun
+        $id=$request->user_id;
+        DB::table('copouns')->insert(['user_id'=>$id,'copoun'=>$copoun]);
+        $subject = " your copoun to get free shipping  from Lorem.";
+        $email=$request->email;
+        $name=$request->name;
+        Mail::send('copounMaile', ['name' =>$name , 'copoun'=>$copoun],
+            function($mail) use ( $subject,$email,$name){
+                $mail->from('gradproj763@gmail.com', "From Lorem");
+                $mail->to($email, $name);
+                $mail->subject($subject);
+            });
+            return response()->json("message=>email is sent successfully");
+    }
+
+
 
     // public function trackingOrder(Request $request){
     //     Order::where('order_id', '=',$request->order_id)->get();
