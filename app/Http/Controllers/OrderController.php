@@ -108,7 +108,11 @@ class OrderController extends Controller
         return response()->json(new OrderResource($order), 200);
         // return response()->json(["message=>not allow to update status  order"], 403);
     }
-
+    public function cancelldorder( $id ){
+        $order=Order::find($id);
+        $order->update([$order->status='cancelld']);
+        return response()->json("order cancelld is done", 200);
+    }
     /**
      * Remove the specified resource from storage.
      *

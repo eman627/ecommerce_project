@@ -40,6 +40,7 @@ Route::get('subCategory/{id}',['App\Http\Controllers\CategoryController','subCat
 
 //API For Orders && Offers && Wishlistes
 Route::apiResource('orders','App\Http\Controllers\OrderController');
+Route::get('cancelldorder/{id}',['App\Http\Controllers\OrderController','cancelldorder']);
 Route::get('order/{id}',['App\Http\Controllers\OrderController','showorderofuser']);
 Route::apiResource('offeres','App\Http\Controllers\OfferController');
 Route::apiResource('wishlist','App\Http\Controllers\WishlistController');
