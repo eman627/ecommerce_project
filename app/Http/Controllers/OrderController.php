@@ -54,7 +54,7 @@ class OrderController extends Controller
             if(count($exist_user)!=0){
                 $order->copoun=$request->copoun;
                 $order->price=$request->price;
-                DB::table('copouns')->where("id","=",$exist_user[0]->id)->update(['status'=>'available']);
+                DB::table('copouns')->where("id","=",$exist_user[0]->id)->update(['status'=>'notavailable']);
             }
             else {
                 $price=$request->price;
