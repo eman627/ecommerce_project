@@ -37,22 +37,32 @@ class OrderController extends Controller
     public function store(Request $request)
     {
 
-     DB::beginTransaction();
-    try{
+    //  DB::beginTransaction();
+    // try{
         $order = new Order();
         // $order->status=$request->status;
         $order->address_state=$request->address_state;
         $order->address_city=$request->address_city;
         $order->address_street=$request->address_street;
-        $order->copoun=$request->copoun;
         $order->user_id=$request->user_id;
         $order->name=$request->name;
         $order->phone=$request->phone;
         $order->comment=$request->comment;
-        $order->price=$request->price;
         $order->payment_id=$request->payment_id;
+        if ($request->copoun){
+            $exist_user= DB::table('copouns')->where("user_id","=",$request->user_id)->where("copoun","=",$request->copoun)->where("status","=","available")->where("end_at",">",now())->get() ;
+            if(count($exist_user)!=0){
+                $order->copoun=$request->copoun;
+                $order->price=$request->price;
+                DB::table('copouns')->where("id","=",$exist_user[0]->id)->update(['status'=>'available']);
+            }
+            else {
+                $price=$request->price;
+                $order->price= $price+30;
+            }
+        }
         $order->save();
-        $items = Cart::where('user_id','=',$request->user_id)->get();
+        $items= Cart::where('user_id','=',$request->user_id)->get();
         foreach( $items as $item ){
             $orderItem = new orderdetails;
             $orderItem->order_id = $order->id;
@@ -67,10 +77,10 @@ class OrderController extends Controller
         ]);
         }
         Cart::where('user_id','=',$request->user_id)->delete();
-      DB::commit();
-    }catch (\Exception $e ){
-        DB::rollBack();
-    }
+    //   DB::commit();
+    // }catch (\Exception $e ){
+    //     DB::rollBack();
+    // }
 
     return response()->json($items);
 
@@ -125,11 +135,13 @@ class OrderController extends Controller
         return response()->json(["message=>not allow to delete order"], 403);
     }
 
-//    for getting
+//    for getting copoun
      public function  getCopoun(Request $request){
         $copoun=random_int(100000, 999999);//Generate copoun
         $id=$request->user_id;
-        DB::table('copouns')->insert(['user_id'=>$id,'copoun'=>$copoun]);
+       $exist_user=DB::table('copouns')->where('user_id','=',$id)->get();
+       if( (count($exist_user)==0) || ( (count($exist_user)!=0 ) && ( now() > $exist_user[count($exist_user)-1]->end_at) )   ) {
+        DB::table('copouns')->insert(['user_id'=>$id,'copoun'=>$copoun,'created_at'=>now(),'updated_at'=>now()]);
         $subject = " your copoun to get free shipping  from Lorem.";
         $email=$request->email;
         $name=$request->name;
@@ -139,7 +151,10 @@ class OrderController extends Controller
                 $mail->to($email, $name);
                 $mail->subject($subject);
             });
-            return response()->json("message=>email is sent successfully");
+            return response()->json(["message"=>"email is sent successfully"]);
+       }
+       return   response()->json(["message"=>"not allowed yet ,plaese wait for next month "]);
+
     }
 
 

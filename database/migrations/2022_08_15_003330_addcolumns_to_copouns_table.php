@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('copouns', function (Blueprint $table) {
-            $table->id();
-            $table->string('copoun');
-            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->timestamps(); 
+        Schema::table('copouns', function (Blueprint $table) {
+            $table->enum('status',['available','notavailable'])->default('available');
+            $table->date('end_at')->default(now()->addMonth());
         });
     }
 
@@ -28,6 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('copouns');
+        Schema::table('copouns', function (Blueprint $table) {
+            $table->dropColumn('end_at');
+            $table->dropColumn('status');
+        });
     }
 };
