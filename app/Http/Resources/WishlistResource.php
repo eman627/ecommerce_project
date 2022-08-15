@@ -19,7 +19,7 @@ class WishlistResource extends JsonResource
              'id'=>$this->id,
              'user_id'=>$this->user_id,
              'product_id' =>$this->product_id,
-            'product'=> $this->products
+            'product'=> new ProductCollection($this->products)
 
         ];
     }
