@@ -157,7 +157,11 @@ class OrderController extends Controller
 
     }
 
+public function filterbystatus(Request $request){
+    $order_ids=Order::where("status","=",$request->status)->get();
+    return OrderResource::collection($order_ids);
 
+}
 
     // public function trackingOrder(Request $request){
     //     Order::where('order_id', '=',$request->order_id)->get();

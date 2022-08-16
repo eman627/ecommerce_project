@@ -46,7 +46,7 @@ Route::post('getCopoun',['App\Http\Controllers\OrderController','getCopoun']);
 Route::apiResource('offeres','App\Http\Controllers\OfferController');
 Route::apiResource('wishlist','App\Http\Controllers\WishlistController');
 Route::get('getAllOffers/{id}',['App\Http\Controllers\OfferController','getAllOffers']);
-
+Route::post('filterbystatus',['App\Http\Controllers\OrderController','filterbystatus']);
 //API Cart
 Route::apiResource('cart','App\Http\Controllers\CartController');
 Route::get('totalprice/{id}',['App\Http\Controllers\CartController','calcprice']);
