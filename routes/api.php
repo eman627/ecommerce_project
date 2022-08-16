@@ -57,7 +57,7 @@ Route::get('product/search/{keyword?}',['App\Http\Controllers\FilterControler','
 Route::get('category/filter/{keyword?}',['App\Http\Controllers\FilterControler','filterByCategoryName']);
 Route::get('category/search/{keyword?}',['App\Http\Controllers\FilterControler','searchByCategoryName']);
 Route::post('brand/filter',['App\Http\Controllers\FilterControler','filterByBrandName']);
-
+Route::get('allcat',['App\Http\Controllers\FilterControler','allcat']);
 // API for offers filtered
 Route::get('productOffered',['App\Http\Controllers\OfferController','productOffered']);
 Route::get('endAtTheSameTime',['App\Http\Controllers\OfferController','endAtTheSameTime']);

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
@@ -75,7 +77,23 @@ class FilterControler extends Controller
 
     }
 
+public function allcat(){
+    $cats= Category::whereNotNull('category_id')->get();
+    $products=[];
+    $all=[];
+    $category_id=0;
+    $category_name='';
+    $y=[];
+    foreach ($cats as $cat ) {
+        $category_id=$cat->id;
+        $category_name=$cat->name;
+        $product=new ProductCollection(Product::where('category_id','=',$cat->id)->whereNotNull('product_verified_at')->get());
 
+      
+        array_push($all, ['name'=>$category_name,'id'=>$category_id,'item'=>$product]);
+    }
+    return response()->json( ["subcat"=>$all], 200);
+}
 
     // filter by price
 

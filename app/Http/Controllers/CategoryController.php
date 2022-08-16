@@ -110,6 +110,7 @@ class CategoryController extends Controller
             }
 
             foreach ($product as $item){
+                // if($product ->quantity!=0)
                     array_push($products, $item);
 
             }
