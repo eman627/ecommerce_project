@@ -99,9 +99,9 @@ class OfferController extends Controller
                 $filter=$filters[$index];
                 // return $filter;
           $product= new ProductCollection(Product::where('id',"=",$filter->product_id)->get()) ;
-          if(count( $products_offered)<6){
+       
           array_push($products_offered, $product);
-          }
+          
         }
         return $products_offered;
 
