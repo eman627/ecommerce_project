@@ -70,7 +70,7 @@ Route::get('endAtTheSameTime',['App\Http\Controllers\OfferController','endAtTheS
 Route::put('users/{id}',['App\Http\Controllers\UserController','update']);
 Route::get('users',['App\Http\Controllers\UserController','index']);
 Route::post('changepassword/{id}',['App\Http\Controllers\UserController','ChangePassword']);
-
+Route::get('alluser',['App\Http\Controllers\UserController','alluser']);
 
 //API for Reviwes
 Route::get('reviews',['App\Http\Controllers\ReviewController','index']);

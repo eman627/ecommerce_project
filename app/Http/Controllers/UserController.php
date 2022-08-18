@@ -32,6 +32,9 @@ class UserController extends Controller
 
 
     }
+    public function alluser(){
+        return   User::all() ;  
+    }
 
    /**
      * Update the specified resource in storage.
