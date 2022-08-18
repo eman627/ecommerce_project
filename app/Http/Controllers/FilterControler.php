@@ -25,7 +25,15 @@ class FilterControler extends Controller
 
    return response()->json( ["data"=>$products], 200);
     }
+    public function getId(Request $request)
+    {
 
+ 
+       $product=Product::where('name','=',$request->name)->value('id');
+
+
+   return response()->json(["id"=> $product], 200);
+    }
     //Search By Category Name
     public function searchByCategoryName(Request $request)
     {
