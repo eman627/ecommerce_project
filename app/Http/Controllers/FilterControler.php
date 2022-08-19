@@ -102,7 +102,10 @@ public function allcat(){
     }
     return response()->json( ["subcat"=>$all], 200);
 }
-
+public function allsubcat(){
+    $cats= Category::whereNotNull('category_id')->get(); 
+    return response()->json( ["subcat"=>$cats], 200); 
+}
     // filter by price
 
 
