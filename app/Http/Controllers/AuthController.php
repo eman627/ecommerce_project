@@ -187,16 +187,15 @@ public function forgetpassword(Request $request ){
                $mail->to($email);
                $mail->subject($subject);
            });
-           return response()->json([
-
-          'user_id'=>$user_id
-      ]);
+           return  response()->json([
+            'status' => 'success',
+        ],200);
 
     }
     return response()->json([
 
            'message'=>'your email was wrong ,please try again'
-        ]);
+        ], 401);
 
 }
 public function updatepassword(Request $request, $id){
