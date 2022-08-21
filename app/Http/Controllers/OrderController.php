@@ -151,9 +151,9 @@ class OrderController extends Controller
                 $mail->to($email, $name);
                 $mail->subject($subject);
             });
-            return response()->json(["message"=>"email is sent successfully"]);
+            return response()->json(["message"=>"email is sent successfully"],200);
        }
-       return   response()->json(["message"=>"not allowed yet ,plaese wait for next month "]);
+       return   response()->json(["message"=>"not allowed yet ,plaese wait for next month "],401);
 
     }
 
