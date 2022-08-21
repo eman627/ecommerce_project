@@ -43,6 +43,7 @@ Route::get('allsubcat',['App\Http\Controllers\FilterControler','allsubcat']);
 Route::apiResource('orders','App\Http\Controllers\OrderController');
 Route::get('cancelldorder/{id}',['App\Http\Controllers\OrderController','cancelldorder']);
 Route::get('order/{id}',['App\Http\Controllers\OrderController','showorderofuser']);
+Route::get('closedorder/{id}',['App\Http\Controllers\OrderController','showclosedorder']);
 Route::post('getCopoun',['App\Http\Controllers\OrderController','getCopoun']);
 Route::apiResource('offeres','App\Http\Controllers\OfferController');
 Route::apiResource('wishlist','App\Http\Controllers\WishlistController');
