@@ -13,6 +13,8 @@ use App\Models\orderdetails;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use DB;
+use Illuminate\Support\Facades\DB as FacadesDB;
+
 class ProductController extends Controller
 {
     // public function __construct()
@@ -57,6 +59,14 @@ class ProductController extends Controller
         if($role_id==1) $product->product_verified_at=now();
          $product->image=$originalName;
          $product->save();
+         foreach($request->sizes as $size){
+            DB::table('products_size')->insert(
+                ['product_id'=>$product->id,
+                  'size_id'=> $size
+                ]
+            );
+          
+         }
          return response()->json("succesfull stor", 200);
 
     }
@@ -217,7 +227,7 @@ class ProductController extends Controller
 
      //  to get recent viewd product
 
-   
+
     }
 
 
