@@ -45,5 +45,9 @@ class Product extends Model
     {
         return $this->hasOne(Cart::class,'product_id','id');
     }
+    public function sizes()
+    {
+        return $this->belongsToMany(sizes::class,'products_size','product_id','size_id');
+    }
 
 }

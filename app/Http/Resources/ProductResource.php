@@ -15,6 +15,7 @@ class ProductResource extends JsonResource
     public function toArray($request)
     {
         return[
+            'sizes'=>$this->sizes,
             'id'=>$this->id,
             'verified'=>$this->product_verified_at,
             'name'=>$this->name,
@@ -37,6 +38,7 @@ class ProductResource extends JsonResource
                 'price_offer'=>  $this->price -($this->offeres[count($this->offeres)-1]->percent * $this->price) /100 ,
                 'remaining_time'=>  now()->diff($this->offeres[count($this->offeres)-1]->end_at)
              ] :null ,
+
 
         ];
 
