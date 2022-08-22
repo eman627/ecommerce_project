@@ -69,12 +69,10 @@ class OrderController extends Controller
             $orderItem->product_id = $item['product_id'];
             $orderItem->quantity = $item['quantity'];
             $orderItem->price = $item['price'];
+            $orderItem->size_id = $item['size_id'];
             $orderItem->save();
             // Product::where(['id' => $item['product_id'])
-           $product= Product::find($item['product_id']);
-           $product->update([
-           $product->quantity -=  $item['quantity']
-        ]);
+
         }
         Cart::where('user_id','=',$request->user_id)->delete();
     //   DB::commit();
@@ -115,7 +113,24 @@ class OrderController extends Controller
         //     $order->status=$request->status;
         //    return response()->json(new OrderResource($order), 200);
         //     }
-        $order->update($request->all());
+        if($request->status=='pending'){
+            $order->update([$order->status="confirmed"]);
+               $items=DB::table('orderdetails')->where("order_id","=",$id)->get();
+               foreach($items as $item){
+                $product= Product::find($item['product_id']);
+                $product->update([
+                $product->quantity -=  $item['quantity']
+             ]);
+               }
+        }
+        elseif($request->status=="confirmed"){
+            $order->update([$order->status="shipped"]);
+        }
+        elseif($request->status=="shipped"){
+            $order->update([$order->status="delivered"]);
+        }
+
+
         return response()->json(new OrderResource($order), 200);
         // return response()->json(["message=>not allow to update status  order"], 403);
     }

@@ -37,6 +37,7 @@ Route::get('producterbyuser/{id}',['App\Http\Controllers\ProductController','pro
 Route::apiResource('categories','App\Http\Controllers\CategoryController');
 Route::get('mainCategory',['App\Http\Controllers\CategoryController','mainCategory']);
 Route::get('subCategory/{id}',['App\Http\Controllers\CategoryController','subCategory']);
+Route::get('sizesOfCategory/{id}',['App\Http\Controllers\CategoryController','sizesOfCategory']);
 Route::get('allsubcat',['App\Http\Controllers\FilterControler','allsubcat']);
 
 //API For Orders && Offers && Wishlistes

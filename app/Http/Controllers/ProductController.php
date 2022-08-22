@@ -43,6 +43,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
 
     {
+        // return $request;
         $file=$request->file('image');
         $upload_path="public/image";
        $originalName= $file->getClientOriginalName();
@@ -59,16 +60,19 @@ class ProductController extends Controller
         if($role_id==1) $product->product_verified_at=now();
          $product->image=$originalName;
          $product->save();
+        //  $parentCat=DB::table('categories')->where('id','=',$request->category_id)->value('category_id');
+        //  $parentCatSizes=DB::table('sizes')->where('category_id','=',$parentCat)->get();
+        //  if(count($parentCatSizes)){
          foreach($request->sizes as $size){
             DB::table('products_size')->insert(
                 ['product_id'=>$product->id,
-                  'size_id'=> $size
+                  'size_id'=> $size,
+                  'created_at'=>now(),
+                  'updated_at'=>now()
                 ]
             );
-          
          }
          return response()->json("succesfull stor", 200);
-
     }
 
     /**

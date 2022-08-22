@@ -120,6 +120,11 @@ class CategoryController extends Controller
 
     }
 
-
+    public function sizesOfCategory($id){
+        $parentCat=DB::table('categories')->where('id','=',$id)->value('category_id');
+        // return $parentCat;
+        $sizes=DB::table('sizes')->where('category_id','=',$parentCat)->get();
+        return $sizes;
+    }
 
 }

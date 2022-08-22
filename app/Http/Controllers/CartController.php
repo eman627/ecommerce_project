@@ -37,8 +37,10 @@ class CartController extends Controller
             $cart->price=$request->price;
             $cart->quantity=$request->quantity;
             $cart->product_id=$request->product_id;
+            $productSize=DB::table('products_size')->where('product_id','=',$request->product_id)->get();
+             $cart->size_id=$request->size_id;
            // $cart->user_id=auth()->id();
-           $cart->user_id=$request->user_id;
+            $cart->user_id=$request->user_id;
             $cart->save();
             return response()->json("succesfully store", 200);
 
@@ -61,7 +63,7 @@ class CartController extends Controller
         return new CartCollection (Cart::where('user_id','=',$id)->get());
 
     }
-   
+
 
     public function calcprice($id){
         $price = DB::table('cart')
@@ -104,7 +106,5 @@ class CartController extends Controller
         Cart::find($id)->delete();
         return response()->json("deleted is done", 200);
     }
-    public function cartProduct(){
 
-    }
 }

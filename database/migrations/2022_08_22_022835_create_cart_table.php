@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('cart', function (Blueprint $table) {
             $table->id();
             $table->integer('quantity');
-            $table->float('price');
-            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('size_id')->constrained()->onUpdate('cascade')->onDelete('cascade')->nullable();
+            $table->float('price');
+            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade')->nullable();
             $table->timestamps();
         });
     }
