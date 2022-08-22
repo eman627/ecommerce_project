@@ -77,8 +77,29 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        Category::find($id)->delete();
-        return response()->json("deleted is done", 200);
+        $related_parent=Category::where("id","=",$id)->value("category_id") ;
+        if($related_parent){  //subcategory
+          $product_cats= Product::where("category_id","=",$id)->get();
+          if(count($product_cats)) return response()->json("this category cannot be deleted", 403);   //subcategory  having products can not be deleted
+          else  {
+            Category::find($id)->delete();
+            return response()->json("deleted is done", 200);   //subcategory doesn't  have product can be deleted
+          }
+        }
+        else {      //maincategory
+              $subcat=Category::where("category_id","=",$id)->get();
+              if(count($subcat))   return response()->json("this category cannot be deleted", 403);    //maincategory having subcategory related to it can not be deleted
+              else
+              {
+                Category::find($id)->delete();
+                return response()->json("deleted is done", 200);   //maincategory doesn't have subcategory related to it can  be deleted
+            }
+        }
+        // else {
+        //     Category::find($id)->delete();
+        //     return response()->json("deleted is done", 200);
+        // }
+
     }
 
     //return All Categories with Category_id=NULL
