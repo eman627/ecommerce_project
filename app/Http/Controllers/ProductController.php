@@ -111,8 +111,22 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        $orders=DB::table('orderdetails')->where('product_id','=',$id)->get('order_id');
+    //    return $orders;
+        if(count($orders)){
+            foreach ($orders as $order) {
+                // return $order;
+                $order_ids=DB::table('orders')->where("id","=",$order->order_id)->whereIn("status",['confirmed','pending'])->get();
+                if(count($order_ids))  return response()->json("this product cannot be deleted", 403);
+            }
+
+        }
+
+    else{
         Product::find($id)->delete();
         return response()->json("deleted is done", 200);
+    }
+
     }
 
 
