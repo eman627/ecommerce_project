@@ -200,9 +200,19 @@ public function forgetpassword(Request $request ){
 }
 public function updatepassword(Request $request, $id){
     $user= User::find($id);
-    $user->password=Hash::make($request->password);
-    $user->save();
-    return response()->json('success');
+    if( !is_null($request->password)){
+        $user->password=Hash::make($request->password);
+        $user->save();
+        return response()->json([
+            'status' => 'success',
+        ],200);
+    }else{
+        return response()->json([
+
+            'message'=>'please insert a valid password'
+         ], 401);
+    }
+  
 
 
 }

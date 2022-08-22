@@ -97,7 +97,11 @@ class OrderController extends Controller
     }
     public function showorderofuser($user_id){
 
-        return OrderResource::collection(Order::where('user_id', '=', $user_id)->get());
+        return OrderResource::collection(Order::where('user_id', '=', $user_id)->where('status','=','pending')->get());
+    }
+    public function showclosedorder($user_id){
+
+        return OrderResource::collection(Order::where('user_id', '=', $user_id)->where('status','!=','pending')->get());
     }
     /**
      * Update the specified resource in storage.
@@ -166,9 +170,9 @@ class OrderController extends Controller
                 $mail->to($email, $name);
                 $mail->subject($subject);
             });
-            return response()->json(["message"=>"email is sent successfully"]);
+            return response()->json(["message"=>"email is sent successfully"],200);
        }
-       return   response()->json(["message"=>"not allowed yet ,plaese wait for next month "]);
+       return   response()->json(["message"=>"not allowed yet ,plaese wait for next month "],401);
 
     }
 
