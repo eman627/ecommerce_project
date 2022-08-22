@@ -114,7 +114,8 @@ Route::post('stripe',['App\Http\Controllers\StripePaymentController','stripePost
 Route::get('/login/{provider}', [AuthController::class,'redirectToProvider']);
 Route::get('/login/{provider}/callback', [AuthController::class,'handleProviderCallback']);
 
-
+// API for Sizes
+Route::apiResource('sizes','App\Http\Controllers\sizeController'); 
 
 
 

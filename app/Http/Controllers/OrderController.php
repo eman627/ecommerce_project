@@ -11,7 +11,7 @@ use App\Models\Order;
 use App\Models\orderdetails;
 use App\Models\Product;
 use Illuminate\Support\Facades\Mail;
-
+use Validator;
 class OrderController extends Controller
 {
     // public function __construct()
@@ -36,7 +36,39 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+                 //validation
+                 $validator =Validator::make($request->all(),
+                 [
+                     'name' => 'required|string|max:255',
+                     'address_street'=>'required',
+                     'address_city'=>'required',
+                     'address_state'=>'required',
+                     'phone'=>'required|min:11|numeric|unique:users|regex:/^01[0125][0-9]{8}$/',
+                     'price'=>'required|numeric',
+                     'user_id'=>'required|numeric',
+                     'payment_id'=>'required|numeric',
+                     'copoun'=>'numeric',
+                 ], [
+                     'name.required' => 'برجاء ادخال اسم المستخدم',
+                     'name.string' => 'لابد ان يكون اسم المستخدم بالحروف',
+                     'address_street.required' =>'please insert name of street',
+                     'address_city.required' =>'please please select your city',
+                     'address_state.required' =>'please insert name of street',
+                     'phone.required' => 'برجاء ادخال رقم الهاتف الخاص بك',
+                     'phone.unique'=>'رقم الهاتف مسجل بالفعل',
+                     'phone.regex'=>'لابد ان يبدا هاتفك ب 015,012,011,010',
+                     'price.required'=>'price is required',
+                     'price.numeric'=>'price should be number',
+                     'user_id.numeric'=>'user_id should be number',
+                     'user_id.required'=>'user_id is required',
+                     'payment_id.numeric'=>'payment_id should be number',
+                     'payment_id.required'=>'payment_id is required',
+                     'copoun.numeric'=>'copoun should be number',
 
+                 ]);
+             if ($validator->fails()) {
+                 return response()->json(['error'=>$validator->errors()], 401);
+             }
     //  DB::beginTransaction();
     // try{
         $order = new Order();
