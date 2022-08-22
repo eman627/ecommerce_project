@@ -175,7 +175,7 @@ class ProductController extends Controller
     {
         if( $count->selling_count >2)
         {
-            array_push($product_ids, new ProductCollection(Product::where('id','=',$count->product_id)->get()));
+            array_push($product_ids, new ProductCollection(Product::where('id','=',$count->product_id)->where("quantity",">",0)->get()));
 
         }
     }
@@ -208,7 +208,7 @@ class ProductController extends Controller
 
     //  to get random product
     public function randomProduct(){
-        $products= new ProductCollection(Product::whereNotNull('product_verified_at')->get());
+        $products= new ProductCollection(Product::whereNotNull('product_verified_at')->where("quantity",">",0)->get());
         // return  $products;
         $random_products=[];
         $arr_indexs=[];

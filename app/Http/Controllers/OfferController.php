@@ -98,10 +98,10 @@ class OfferController extends Controller
 
                 $filter=$filters[$index];
                 // return $filter;
-          $product= new ProductCollection(Product::where('id',"=",$filter->product_id)->get()) ;
-       
+          $product= new ProductCollection(Product::where('id',"=",$filter->product_id)->where("quantity",">",0)->get()) ;
+
           array_push($products_offered, $product);
-          
+
         }
         return $products_offered;
 

@@ -120,9 +120,9 @@ class CategoryController extends Controller
         $cats= new CategoryCollection(Category::where('category_id','=',$id)->get());
         foreach ($cats as $cat ) {
             $category_id=$cat->id;
-            $product=new ProductCollection(Product::where('category_id','=',$cat->id)->whereNotNull('product_verified_at')->get());
+            $product=new ProductCollection(Product::where('category_id','=',$cat->id)->where("quantity",">",0)->whereNotNull('product_verified_at')->get());
 
-            $brand=DB::table('products')->select('brand')->where('category_id','=',$cat->id)->whereNotNull('product_verified_at')->distinct()->get();
+            $brand=DB::table('products')->select('brand')->where('category_id','=',$cat->id)->where("quantity",">",0)->whereNotNull('product_verified_at')->distinct()->get();
 
             foreach ( $brand as $item){
                 if(!in_array($item , $brands)){

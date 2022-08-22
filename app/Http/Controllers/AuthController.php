@@ -99,7 +99,6 @@ public function register(Request $request){
         'email' => $request->email,
         'role_id' => $request->role_id,
         'phone' => $request->phone,
-        'address' => $request->address,
         'password' => Hash::make($request->password),
     ]);
        //mail verification
@@ -212,7 +211,7 @@ public function updatepassword(Request $request, $id){
             'message'=>'please insert a valid password'
          ], 401);
     }
-  
+
 
 
 }

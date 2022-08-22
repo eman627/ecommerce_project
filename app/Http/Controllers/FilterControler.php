@@ -28,7 +28,7 @@ class FilterControler extends Controller
     public function getId(Request $request)
     {
 
- 
+
        $product=Product::where('name','=',$request->name)->value('id');
 
 
@@ -97,14 +97,14 @@ public function allcat(){
         $category_name=$cat->name;
         $product=new ProductCollection(Product::where('category_id','=',$cat->id)->whereNotNull('product_verified_at')->get());
 
-      
+
         array_push($all, ['name'=>$category_name,'id'=>$category_id,'item'=>$product]);
     }
     return response()->json( ["subcat"=>$all], 200);
 }
 public function allsubcat(){
-    $cats= Category::whereNotNull('category_id')->get(); 
-    return response()->json( ["subcat"=>$cats], 200); 
+    $cats= Category::whereNotNull('category_id')->get();
+    return response()->json( ["subcat"=>$cats], 200);
 }
     // filter by price
 
