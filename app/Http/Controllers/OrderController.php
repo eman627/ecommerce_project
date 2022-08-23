@@ -152,10 +152,14 @@ class OrderController extends Controller
         if($request->status=='pending'){
             $order->update([$order->status="confirmed"]);
                $items=DB::table('orderdetails')->where("order_id","=",$id)->get();
+              
                foreach($items as $item){
-                $product= Product::find($item['product_id']);
+                $id= $item->product_id;
+                $product= Product::find($id);
+                
+                $qty=$item->quantity;
                 $product->update([
-                $product->quantity -=  $item['quantity']
+                $product->quantity -=$qty  
              ]);
                }
         }
