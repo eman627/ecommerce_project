@@ -115,8 +115,10 @@ Route::get('/login/{provider}', [AuthController::class,'redirectToProvider']);
 Route::get('/login/{provider}/callback', [AuthController::class,'handleProviderCallback']);
 
 // API for Sizes
-Route::apiResource('sizes','App\Http\Controllers\sizeController'); 
+Route::apiResource('sizes','App\Http\Controllers\sizeController');
 
+//API for buyer address
+Route::apiResource('buyeradress','App\Http\Controllers\buyerAddressesController');
 
 
 
