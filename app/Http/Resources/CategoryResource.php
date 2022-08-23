@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use DB;
 class CategoryResource extends JsonResource
 {
     /**
@@ -19,6 +19,7 @@ class CategoryResource extends JsonResource
             'name'=>$this->name,
             'description'=>$this->description,
             'category_id'=>$this->category_id,
+            'category_name'=>DB::table('categories')->where('id','=',$this->category_id)->get('name'),
             'sizes'=>$this->sizes
         ];
     }
