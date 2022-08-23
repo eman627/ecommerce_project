@@ -12,16 +12,11 @@ class Order extends Model
 
     protected $fillable = [
         'status',
-        'address_state',
-        'address_city',
-        'address_street',
         'copoun',
         'user_id',
         'comment',
         'price',
         'payment_id',
-       'name',
-       'phone' 
     ];
     public function orderdetails()
     {
@@ -35,5 +30,8 @@ class Order extends Model
     {
         return $this->belongsTo(Payment::class);
     }
-
+    public function buyerAddress()
+    {
+        return $this->belongsToMany(buyerAddresses::class);
+    }
 }

@@ -39,15 +39,15 @@ class OrderController extends Controller
                  //validation
                  $validator =Validator::make($request->all(),
                  [
-                     'name' => 'required|string|max:255',
-                     'address_street'=>'required',
-                     'address_city'=>'required',
-                     'address_state'=>'required',
-                     'phone'=>'required|min:11|numeric|unique:users|regex:/^01[0125][0-9]{8}$/',
+                    //  'name' => 'required|string|max:255',
+                    //  'address_street'=>'required',
+                    //  'address_city'=>'required',
+                    //  'address_state'=>'required',
+                    //  'phone'=>'required|min:11|numeric|unique:users|regex:/^01[0125][0-9]{8}$/',
                      'price'=>'required|numeric',
                      'user_id'=>'required|numeric',
                      'payment_id'=>'required|numeric',
-                     'copoun'=>'numeric',
+                    //  'copoun'=>'numeric',
                  ], [
                      'name.required' => 'برجاء ادخال اسم المستخدم',
                      'name.string' => 'لابد ان يكون اسم المستخدم بالحروف',
@@ -73,12 +73,13 @@ class OrderController extends Controller
     // try{
         $order = new Order();
         // $order->status=$request->status;
-        $order->address_state=$request->address_state;
-        $order->address_city=$request->address_city;
-        $order->address_street=$request->address_street;
+        // $order->address_state=$request->address_state;
+        // $order->address_city=$request->address_city;
+        // $order->address_street=$request->address_street;
         $order->user_id=$request->user_id;
-        $order->name=$request->name;
-        $order->phone=$request->phone;
+        // $order->name=$request->name;
+        // $order->phone=$request->phone;
+        $order->buyeraddresse_id=$request->buyeraddresse_id;
         $order->comment=$request->comment;
         $order->payment_id=$request->payment_id;
         if ($request->copoun){

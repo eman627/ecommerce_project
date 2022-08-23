@@ -34,15 +34,17 @@ class buyerAddressesController extends Controller
      */
     public function store(Request $request)
     {
-       DB::table('buyeraddresses')->insert([
+      $id= DB::table('buyeraddresses')->insertGetId([
         'user_id'=>$request->user_id,
         'address_state'=>$request->address_state,
         'address_city'=>$request->address_city,
         'address_street'=>$request->address_street,
+        'name'=>$request->name,
+        'phone'=>$request->phone,
         'created_at'=>now(),
             'updated_at'=>now()
        ]);
-       return response()->json("successful store",200);
+       return response()->json($id,200);
     }
 
     /**
