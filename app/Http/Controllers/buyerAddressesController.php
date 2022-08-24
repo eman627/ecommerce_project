@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\buyeraddressesResource;
 use Illuminate\Http\Request;
 use DB;
+<<<<<<< HEAD
+=======
+use App\Models\buyerAddresses;
+>>>>>>> 69696b361d11fa80f2ff046bdbafbc6776686c24
 use Validator;
 class buyerAddressesController extends Controller
 {
@@ -41,7 +46,7 @@ class buyerAddressesController extends Controller
             'address_street'=>'required',
             'address_city'=>'required',
             'address_state'=>'required',
-            'phone'=>'required|min:11|numeric|unique:users|regex:/^01[0125][0-9]{8}$/',
+            'phone'=>'required|min:11|numeric|regex:/^01[0125][0-9]{8}$/',
            'user_id'=>'required|numeric',
         ],
         [
@@ -79,6 +84,8 @@ class buyerAddressesController extends Controller
      */
     public function show($id)
     {
+    //  return  buyeraddressesResource::collection(buyerAddresses::where("user_id","=",$id)->get());
+
         $addresse=DB::table('buyeraddresses')->where("user_id","=",$id)->get();
         return $addresse;
     }

@@ -44,9 +44,9 @@ class OrderController extends Controller
                     //  'address_city'=>'required',
                     //  'address_state'=>'required',
                     //  'phone'=>'required|min:11|numeric|unique:users|regex:/^01[0125][0-9]{8}$/',
-                     'price'=>'required|numeric',
-                     'user_id'=>'required|numeric',
-                    'buyeraddresse_id'=>'required|numeric',
+                    //  'price'=>'required|numeric',
+                    // //  'user_id'=>'required|numeric',
+                    // 'buyeraddresse_id'=>'required|numeric',
                     //  'copoun'=>'numeric',
                  ], [
                     //  'name.required' => 'برجاء ادخال اسم المستخدم',
@@ -162,14 +162,14 @@ class OrderController extends Controller
         if($request->status=='pending' &&$order->payment_id ){
             $order->update([$order->status="confirmed"]);
                $items=DB::table('orderdetails')->where("order_id","=",$id)->get();
-              
+
                foreach($items as $item){
                 $id= $item->product_id;
                 $product= Product::find($id);
-                
+
                 $qty=$item->quantity;
                 $product->update([
-                $product->quantity -=$qty  
+                $product->quantity -=$qty
              ]);
                }
         }
