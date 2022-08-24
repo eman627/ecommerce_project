@@ -34,6 +34,29 @@ class buyerAddressesController extends Controller
      */
     public function store(Request $request)
     {
+        $validator =Validator::make($request->all(),
+        [
+            'name' => 'required|string|max:255',
+            'address_street'=>'required',
+            'address_city'=>'required',
+            'address_state'=>'required',
+            'phone'=>'required|min:11|numeric|unique:users|regex:/^01[0125][0-9]{8}$/',
+           'user_id'=>'required|numeric',
+        ],
+        [
+             'name.required' => 'برجاء ادخال اسم المستخدم',
+             'name.string' => 'لابد ان يكون اسم المستخدم بالحروف',
+             'address_street.required' =>'please insert name of street',
+             'address_city.required' =>'please please select your city',
+             'address_state.required' =>'please insert name of street',
+             'phone.required' => 'برجاء ادخال رقم الهاتف الخاص بك',
+             'phone.unique'=>'رقم الهاتف مسجل بالفعل',
+             'phone.regex'=>'لابد ان يبدا هاتفك ب 015,012,011,010',
+
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 401);
+        }
       $id= DB::table('buyeraddresses')->insertGetId([
         'user_id'=>$request->user_id,
         'address_state'=>$request->address_state,

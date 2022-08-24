@@ -46,24 +46,24 @@ class OrderController extends Controller
                     //  'phone'=>'required|min:11|numeric|unique:users|regex:/^01[0125][0-9]{8}$/',
                      'price'=>'required|numeric',
                      'user_id'=>'required|numeric',
-                     'payment_id'=>'required|numeric',
+                    'buyeraddresse_id'=>'required|numeric',
                     //  'copoun'=>'numeric',
                  ], [
-                     'name.required' => 'برجاء ادخال اسم المستخدم',
-                     'name.string' => 'لابد ان يكون اسم المستخدم بالحروف',
-                     'address_street.required' =>'please insert name of street',
-                     'address_city.required' =>'please please select your city',
-                     'address_state.required' =>'please insert name of street',
-                     'phone.required' => 'برجاء ادخال رقم الهاتف الخاص بك',
-                     'phone.unique'=>'رقم الهاتف مسجل بالفعل',
-                     'phone.regex'=>'لابد ان يبدا هاتفك ب 015,012,011,010',
+                    //  'name.required' => 'برجاء ادخال اسم المستخدم',
+                    //  'name.string' => 'لابد ان يكون اسم المستخدم بالحروف',
+                    //  'address_street.required' =>'please insert name of street',
+                    //  'address_city.required' =>'please please select your city',
+                    //  'address_state.required' =>'please insert name of street',
+                    //  'phone.required' => 'برجاء ادخال رقم الهاتف الخاص بك',
+                    //  'phone.unique'=>'رقم الهاتف مسجل بالفعل',
+                    //  'phone.regex'=>'لابد ان يبدا هاتفك ب 015,012,011,010',
                      'price.required'=>'price is required',
                      'price.numeric'=>'price should be number',
                      'user_id.numeric'=>'user_id should be number',
                      'user_id.required'=>'user_id is required',
-                     'payment_id.numeric'=>'payment_id should be number',
-                     'payment_id.required'=>'payment_id is required',
-                     'copoun.numeric'=>'copoun should be number',
+                     'buyeraddresse_id.numeric'=>'user_id should be number',
+                     'buyeraddresse_id.required'=>'user_id is required',
+                    //  'copoun.numeric'=>'copoun should be number',
 
                  ]);
              if ($validator->fails()) {
@@ -71,17 +71,17 @@ class OrderController extends Controller
              }
     //  DB::beginTransaction();
     // try{
-        $order = new Order();
         // $order->status=$request->status;
         // $order->address_state=$request->address_state;
         // $order->address_city=$request->address_city;
         // $order->address_street=$request->address_street;
-        $order->user_id=$request->user_id;
         // $order->name=$request->name;
         // $order->phone=$request->phone;
+        // $order->comment=$request->comment;
+        // $order->payment_id=$request->payment_id;
+        $order = new Order();
         $order->buyeraddresse_id=$request->buyeraddresse_id;
-        $order->comment=$request->comment;
-        $order->payment_id=$request->payment_id;
+        $order->user_id=$request->user_id;
         if ($request->copoun){
             $exist_user= DB::table('copouns')->where("user_id","=",$request->user_id)->where("copoun","=",$request->copoun)->where("status","=","available")->where("end_at",">",now())->get() ;
             if(count($exist_user)!=0){
@@ -95,6 +95,7 @@ class OrderController extends Controller
             }
         }
         $order->save();
+        $order_id=$order->id;
         $items= Cart::where('user_id','=',$request->user_id)->get();
         foreach( $items as $item ){
             $orderItem = new orderdetails;
@@ -113,7 +114,7 @@ class OrderController extends Controller
     //     DB::rollBack();
     // }
 
-    return response()->json($items);
+    return response()->json( $order_id,200);
 
     }
 
@@ -150,7 +151,15 @@ class OrderController extends Controller
         //     $order->status=$request->status;
         //    return response()->json(new OrderResource($order), 200);
         //     }
-        if($request->status=='pending'){
+        if($request->status=='not completed' &&  $request->payment_id){
+            $order->update(
+                [
+                    $order->status="pending",
+                    $order->payment_id=$request->payment_id,
+
+               ]);
+        }
+        if($request->status=='pending' &&$order->payment_id ){
             $order->update([$order->status="confirmed"]);
                $items=DB::table('orderdetails')->where("order_id","=",$id)->get();
                foreach($items as $item){
@@ -160,13 +169,12 @@ class OrderController extends Controller
              ]);
                }
         }
-        elseif($request->status=="confirmed"){
+        elseif($request->status=="confirmed" && $order->payment_id ){
             $order->update([$order->status="shipped"]);
         }
-        elseif($request->status=="shipped"){
+        elseif($request->status=="shipped" && $order->payment_id ){
             $order->update([$order->status="delivered"]);
         }
-
 
         return response()->json(new OrderResource($order), 200);
         // return response()->json(["message=>not allow to update status  order"], 403);
