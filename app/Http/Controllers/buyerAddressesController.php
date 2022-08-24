@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Resources\buyeraddressesResource;
 use Illuminate\Http\Request;
 use DB;
-<<<<<<< HEAD
-=======
+
 use App\Models\buyerAddresses;
->>>>>>> 69696b361d11fa80f2ff046bdbafbc6776686c24
+
 use Validator;
 class buyerAddressesController extends Controller
 {
