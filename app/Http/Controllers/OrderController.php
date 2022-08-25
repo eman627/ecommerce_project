@@ -180,7 +180,7 @@ class OrderController extends Controller
         else {
             array_push($array_seller,$ordered_products[0]->user_id);
            $all_product=Product::where("user_id","=",$ordered_products[0]->user_id)->get('id');
-           $order_details=orderdetails::where("order_id","=",$id)->whereIn("product_id", $all_product)->get();
+           $order_details=  orderdetails::where("order_id","=",$id)->whereIn("product_id", $all_product)->get();
            array_push($sellerArr,['seller_data'=>$seller_email ,
                  'order_details'=>$order_details
             ]);
@@ -188,20 +188,21 @@ class OrderController extends Controller
         }
 
           }
+        // return   $sellerArr;
           foreach($sellerArr as $seller){
         // return  $seller;
-            // $subject = "hello, congratulations another order are requested from you .";
-            // $email=$seller['seller_data'][0]->email;
-            // $name=$seller['seller_data'][0]->name;
-            // $details=$seller->$order_details;
-            // return  $seller;
-            // Mail::send('maile', ['name' =>$name ],
-            //     function($order) use ( $subject,$email,$name,$details){
-            //         $order->from('gradproj763@gmail.com', "From jumia");
-            //         $order->to($email, $name);
-            //         $order->subject($subject);
-            //     });
+            $subject = "hello, congratulations another order are requested from you .";
+            $email=$seller['seller_data'][0]->email;
+            $name=$seller['seller_data'][0]->name;
+            $details=$seller['order_details'];
 
+            Mail::send('order', ['name' =>$name , 'details'=>$details ],
+                function($order) use ( $subject,$email,$name,$details){
+                    $order->from('gradproj763@gmail.com', "From Moda");
+                    $order->to($email, $name);
+                    $order->subject($subject);
+                });
+                // return  $details;
         //     // send email
           }
 

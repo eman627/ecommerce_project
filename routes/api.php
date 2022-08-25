@@ -119,6 +119,7 @@ Route::apiResource('sizes','App\Http\Controllers\sizeController');
 
 //API for buyer address
 Route::apiResource('buyeradress','App\Http\Controllers\buyerAddressesController');
+Route::get('getAddressByID{id}',['App\Http\Controllers\buyerAddressesController','getAddressByID']);
 
 
 

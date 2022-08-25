@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\buyeraddressesResource;
 use Illuminate\Http\Request;
 use DB;
-
 use App\Models\buyerAddresses;
-
 use Validator;
 class buyerAddressesController extends Controller
 {
@@ -46,7 +44,7 @@ class buyerAddressesController extends Controller
             'address_city'=>'required',
             'address_state'=>'required',
             'phone'=>'required|min:11|numeric|regex:/^01[0125][0-9]{8}$/',
-           'user_id'=>'required|numeric',
+            'user_id'=>'required|numeric',
         ],
         [
              'name.required' => 'برجاء ادخال اسم المستخدم',
@@ -72,7 +70,7 @@ class buyerAddressesController extends Controller
         'created_at'=>now(),
             'updated_at'=>now()
        ]);
-       return response()->json($id,200);
+       return response()->json("success",200);
     }
 
     /**
@@ -109,7 +107,9 @@ class buyerAddressesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $address=buyerAddresses::find($id);
+      $address->update($request->all());
+      return  response()->json("succesfull update", 200);
     }
 
     /**
@@ -122,5 +122,10 @@ class buyerAddressesController extends Controller
     {
         DB::table('buyeraddresses')->where("id","=",$id)->delete();
         return response()->json("succesfull delete", 200);
+    }
+
+
+    public function getAddressByID($id){
+         return buyerAddresses::find($id);
     }
 }
