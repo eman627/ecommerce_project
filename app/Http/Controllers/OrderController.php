@@ -10,6 +10,7 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\orderdetails;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Validator;
 class OrderController extends Controller
@@ -158,6 +159,53 @@ class OrderController extends Controller
                     $order->payment_id=$request->payment_id,
 
                ]);
+
+            // sellerArr=[
+            //     {
+            //         "email"=>"ccccccccccc"",
+            //         "orderdetails=>",""
+            //     }
+            // ]
+               $sellerArr=[];
+              $array_seller=[];
+          $product_ids=orderdetails::where("order_id","=",$id)->distinct()->get('product_id');
+          foreach($product_ids as $product_id){
+            // foreach product -> get its seller
+               $ordered_products =Product::where("id","=",$product_id->product_id)->get();
+            //  return $ordered_products;
+          $role_id=User::where('id','=',$ordered_products[0]->user_id)->value('role_id');
+          if($role_id==2) {
+              $seller_email=User::where('id','=',$ordered_products[0]->user_id)->get();
+        if(in_array($ordered_products[0]->user_id , $array_seller)) break;
+        else {
+            array_push($array_seller,$ordered_products[0]->user_id);
+           $all_product=Product::where("user_id","=",$ordered_products[0]->user_id)->get('id');
+           $order_details=orderdetails::where("order_id","=",$id)->whereIn("product_id", $all_product)->get();
+           array_push($sellerArr,['seller_data'=>$seller_email ,
+                 'order_details'=>$order_details
+            ]);
+        }
+        }
+
+          }
+          foreach($sellerArr as $seller){
+        // return  $seller;
+            // $subject = "hello, congratulations another order are requested from you .";
+            // $email=$seller['seller_data'][0]->email;
+            // $name=$seller['seller_data'][0]->name;
+            // $details=$seller->$order_details;
+            // return  $seller;
+            // Mail::send('maile', ['name' =>$name ],
+            //     function($order) use ( $subject,$email,$name,$details){
+            //         $order->from('gradproj763@gmail.com', "From jumia");
+            //         $order->to($email, $name);
+            //         $order->subject($subject);
+            //     });
+
+        //     // send email
+          }
+
+        return $sellerArr;
         }
         if($request->status=='pending' &&$order->payment_id ){
             $order->update([$order->status="confirmed"]);

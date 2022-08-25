@@ -81,10 +81,10 @@ class buyerAddressesController extends Controller
      */
     public function show($id)
     {
-    //  return  buyeraddressesResource::collection(buyerAddresses::where("user_id","=",$id)->get());
+          return  buyeraddressesResource::collection(buyerAddresses::where("user_id","=",$id)->get());
 
-        $addresse=DB::table('buyeraddresses')->where("user_id","=",$id)->get();
-        return $addresse;
+        // $addresse=DB::table('buyeraddresses')->where("user_id","=",$id)->get();
+        // return $addresse;
     }
 
     /**
