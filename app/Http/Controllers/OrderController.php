@@ -10,6 +10,7 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\orderdetails;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Validator;
 class OrderController extends Controller
@@ -39,31 +40,31 @@ class OrderController extends Controller
                  //validation
                  $validator =Validator::make($request->all(),
                  [
-                     'name' => 'required|string|max:255',
-                     'address_street'=>'required',
-                     'address_city'=>'required',
-                     'address_state'=>'required',
-                     'phone'=>'required|min:11|numeric|unique:users|regex:/^01[0125][0-9]{8}$/',
-                     'price'=>'required|numeric',
-                     'user_id'=>'required|numeric',
-                     'payment_id'=>'required|numeric',
-                     'copoun'=>'numeric',
+                    //  'name' => 'required|string|max:255',
+                    //  'address_street'=>'required',
+                    //  'address_city'=>'required',
+                    //  'address_state'=>'required',
+                    //  'phone'=>'required|min:11|numeric|unique:users|regex:/^01[0125][0-9]{8}$/',
+                    //  'price'=>'required|numeric',
+                    // //  'user_id'=>'required|numeric',
+                    // 'buyeraddresse_id'=>'required|numeric',
+                    //  'copoun'=>'numeric',
                  ], [
-                     'name.required' => 'برجاء ادخال اسم المستخدم',
-                     'name.string' => 'لابد ان يكون اسم المستخدم بالحروف',
-                     'address_street.required' =>'please insert name of street',
-                     'address_city.required' =>'please please select your city',
-                     'address_state.required' =>'please insert name of street',
-                     'phone.required' => 'برجاء ادخال رقم الهاتف الخاص بك',
-                     'phone.unique'=>'رقم الهاتف مسجل بالفعل',
-                     'phone.regex'=>'لابد ان يبدا هاتفك ب 015,012,011,010',
+                    //  'name.required' => 'برجاء ادخال اسم المستخدم',
+                    //  'name.string' => 'لابد ان يكون اسم المستخدم بالحروف',
+                    //  'address_street.required' =>'please insert name of street',
+                    //  'address_city.required' =>'please please select your city',
+                    //  'address_state.required' =>'please insert name of street',
+                    //  'phone.required' => 'برجاء ادخال رقم الهاتف الخاص بك',
+                    //  'phone.unique'=>'رقم الهاتف مسجل بالفعل',
+                    //  'phone.regex'=>'لابد ان يبدا هاتفك ب 015,012,011,010',
                      'price.required'=>'price is required',
                      'price.numeric'=>'price should be number',
                      'user_id.numeric'=>'user_id should be number',
                      'user_id.required'=>'user_id is required',
-                     'payment_id.numeric'=>'payment_id should be number',
-                     'payment_id.required'=>'payment_id is required',
-                     'copoun.numeric'=>'copoun should be number',
+                     'buyeraddresse_id.numeric'=>'user_id should be number',
+                     'buyeraddresse_id.required'=>'user_id is required',
+                    //  'copoun.numeric'=>'copoun should be number',
 
                  ]);
              if ($validator->fails()) {
@@ -71,16 +72,17 @@ class OrderController extends Controller
              }
     //  DB::beginTransaction();
     // try{
-        $order = new Order();
         // $order->status=$request->status;
-        $order->address_state=$request->address_state;
-        $order->address_city=$request->address_city;
-        $order->address_street=$request->address_street;
+        // $order->address_state=$request->address_state;
+        // $order->address_city=$request->address_city;
+        // $order->address_street=$request->address_street;
+        // $order->name=$request->name;
+        // $order->phone=$request->phone;
+        // $order->comment=$request->comment;
+        // $order->payment_id=$request->payment_id;
+        $order = new Order();
+        $order->buyeraddresse_id=$request->buyeraddresse_id;
         $order->user_id=$request->user_id;
-        $order->name=$request->name;
-        $order->phone=$request->phone;
-        $order->comment=$request->comment;
-        $order->payment_id=$request->payment_id;
         if ($request->copoun){
             $exist_user= DB::table('copouns')->where("user_id","=",$request->user_id)->where("copoun","=",$request->copoun)->where("status","=","available")->where("end_at",">",now())->get() ;
             if(count($exist_user)!=0){
@@ -94,6 +96,7 @@ class OrderController extends Controller
             }
         }
         $order->save();
+        $order_id=$order->id;
         $items= Cart::where('user_id','=',$request->user_id)->get();
         foreach( $items as $item ){
             $orderItem = new orderdetails;
@@ -112,7 +115,7 @@ class OrderController extends Controller
     //     DB::rollBack();
     // }
 
-    return response()->json($items);
+    return response()->json( $order_id,200);
 
     }
 
@@ -133,7 +136,7 @@ class OrderController extends Controller
     }
     public function showclosedorder($user_id){
 
-        return OrderResource::collection(Order::where('user_id', '=', $user_id)->where('status','!=','pending')->get());
+        return OrderResource::collection(Order::where('user_id', '=', $user_id)->where('status','!=','pending')->where('status','!=','not completed')->get());
     }
     /**
      * Update the specified resource in storage.
@@ -149,23 +152,82 @@ class OrderController extends Controller
         //     $order->status=$request->status;
         //    return response()->json(new OrderResource($order), 200);
         //     }
-        if($request->status=='pending'){
+        if($request->status=='not completed' &&  $request->payment_id){
+            $order->update(
+                [
+                    $order->status="pending",
+                    $order->payment_id=$request->payment_id,
+
+               ]);
+
+            // sellerArr=[
+            //     {
+            //         "email"=>"ccccccccccc"",
+            //         "orderdetails=>",""
+            //     }
+            // ]
+               $sellerArr=[];
+              $array_seller=[];
+          $product_ids=orderdetails::where("order_id","=",$id)->distinct()->get('product_id');
+          foreach($product_ids as $product_id){
+            // foreach product -> get its seller
+               $ordered_products =Product::where("id","=",$product_id->product_id)->get();
+            //  return $ordered_products;
+          $role_id=User::where('id','=',$ordered_products[0]->user_id)->value('role_id');
+          if($role_id==2) {
+              $seller_email=User::where('id','=',$ordered_products[0]->user_id)->get();
+        if(in_array($ordered_products[0]->user_id , $array_seller)) break;
+        else {
+            array_push($array_seller,$ordered_products[0]->user_id);
+           $all_product=Product::where("user_id","=",$ordered_products[0]->user_id)->get('id');
+           $order_details=  orderdetails::where("order_id","=",$id)->whereIn("product_id", $all_product)->get();
+           array_push($sellerArr,['seller_data'=>$seller_email ,
+                 'order_details'=>$order_details
+            ]);
+        }
+        }
+
+          }
+        // return   $sellerArr;
+          foreach($sellerArr as $seller){
+        // return  $seller;
+            $subject = "hello, congratulations another order are requested from you .";
+            $email=$seller['seller_data'][0]->email;
+            $name=$seller['seller_data'][0]->name;
+            $details=$seller['order_details'];
+
+            Mail::send('order', ['name' =>$name , 'details'=>$details ],
+                function($order) use ( $subject,$email,$name,$details){
+                    $order->from('gradproj763@gmail.com', "From Moda");
+                    $order->to($email, $name);
+                    $order->subject($subject);
+                });
+                // return  $details;
+        //     // send email
+          }
+
+        return $sellerArr;
+        }
+        if($request->status=='pending' &&$order->payment_id ){
             $order->update([$order->status="confirmed"]);
                $items=DB::table('orderdetails')->where("order_id","=",$id)->get();
+
                foreach($items as $item){
-                $product= Product::find($item['product_id']);
+                $id= $item->product_id;
+                $product= Product::find($id);
+
+                $qty=$item->quantity;
                 $product->update([
-                $product->quantity -=  $item['quantity']
+                $product->quantity -=$qty
              ]);
                }
         }
-        elseif($request->status=="confirmed"){
+        elseif($request->status=="confirmed" && $order->payment_id ){
             $order->update([$order->status="shipped"]);
         }
-        elseif($request->status=="shipped"){
+        elseif($request->status=="shipped" && $order->payment_id ){
             $order->update([$order->status="delivered"]);
         }
-
 
         return response()->json(new OrderResource($order), 200);
         // return response()->json(["message=>not allow to update status  order"], 403);

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use DB;
-class CartResource extends JsonResource
+class buyeraddressesResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,12 +16,13 @@ class CartResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-             'price'=>$this->price,
-            'quantity'=>$this->quantity,
+            'address_state'=>DB::table('states')->where('id','=',$this->address_state)->get('name'),
+            'address_city'=>DB::table('cities')->where('id','=',$this->address_city)->get('name'),
+            'address_street'=>$this->address_street,
             'user_id'=>$this->user_id,
-            'product'=>$this->products ,
-            'size_id'=>$this->size_id,
-            'size_name'=>DB::table('sizes')->where('id','=',$this->size_id)->get('size'),
+            'name'=>$this->name,
+            'phone'=>$this->phone,
+            'created_at'=>$this->created_at,
 
 
         ];
