@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Resources\buyeraddressesResource;
 use Illuminate\Http\Request;
 use DB;
+
 use App\Models\buyerAddresses;
+
 use Validator;
 class buyerAddressesController extends Controller
 {

@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use DB;
 class ProductResource extends JsonResource
 {
     /**
@@ -24,6 +24,7 @@ class ProductResource extends JsonResource
             'brand'=>$this->brand,
             'quantity'=>$this->quantity,
             'category_id'=>$this->category_id,
+            'category_name'=>DB::table('categories')->where('id','=',$this->category_id)->get('name'),
             'image'=>$this->image,
             'user'=>[
                 'user_id'=>$this->user->id,

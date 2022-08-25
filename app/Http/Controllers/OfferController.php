@@ -113,18 +113,18 @@ class OfferController extends Controller
         $products=Product::where("user_id","=",$id)->get("id");
         // return $products;
         $product_offered=Offer::whereIn("product_id",$products)->get();
-        return   $product_offered ;
+        return  new OfferCollection( $product_offered) ;
 
     }
     public function endedoffer($id){
         $products=Product::where("user_id","=",$id)->get("id");
         $product_offered=Offer::whereIn("product_id",$products)->where("end_at","<",now())->get();
-        return   $product_offered ;
+        return   new OfferCollection( $product_offered) ;
     }
     public function workoffer($id){
         $products=Product::where("user_id","=",$id)->get("id");
         $product_offered=Offer::whereIn("product_id",$products)->where("end_at",">",now())->get();
-        return   $product_offered ;
+        return   new OfferCollection( $product_offered) ;
     }
 
 

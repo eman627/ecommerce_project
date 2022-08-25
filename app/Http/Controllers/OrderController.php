@@ -136,7 +136,7 @@ class OrderController extends Controller
     }
     public function showclosedorder($user_id){
 
-        return OrderResource::collection(Order::where('user_id', '=', $user_id)->where('status','!=','pending')->get());
+        return OrderResource::collection(Order::where('user_id', '=', $user_id)->where('status','!=','pending')->where('status','!=','not completed')->get());
     }
     /**
      * Update the specified resource in storage.
