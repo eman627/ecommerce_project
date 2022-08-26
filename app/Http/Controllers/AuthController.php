@@ -109,7 +109,7 @@ public function register(Request $request){
        $name=$request->name;
        Mail::send('maile', ['name' =>$name , 'verification_code' => $verification_code],
            function($mail) use ( $subject,$email,$name){
-               $mail->from('gradproj763@gmail.com', "From jumia");
+               $mail->from('gradproj763@gmail.com', "From Moda");
                $mail->to($email, $name);
                $mail->subject($subject);
            });

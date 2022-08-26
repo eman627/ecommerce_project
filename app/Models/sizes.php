@@ -11,12 +11,13 @@ class sizes extends Model
     // protected $table='products_size';
     protected $fillable=[
         'size',
-        'category_id'
+        'category_id',
+        'quantity',
 
     ];
-    // public function products()
-    // {
-    //     return $this->hasMany(Product::class,"id","product_id");
-    // }
-    
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
+
 }
