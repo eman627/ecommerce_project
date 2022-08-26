@@ -160,12 +160,6 @@ class OrderController extends Controller
 
                ]);
 
-            // sellerArr=[
-            //     {
-            //         "email"=>"ccccccccccc"",
-            //         "orderdetails=>",""
-            //     }
-            // ]
                $sellerArr=[];
               $array_seller=[];
           $product_ids=orderdetails::where("order_id","=",$id)->distinct()->get('product_id');
