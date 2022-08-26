@@ -68,9 +68,10 @@ class buyerAddressesController extends Controller
         'name'=>$request->name,
         'phone'=>$request->phone,
         'created_at'=>now(),
-            'updated_at'=>now()
+            'updated_at'=>now(),
+
        ]);
-       return response()->json("success",200);
+       return response()->json($id,200);
     }
 
     /**
@@ -127,5 +128,20 @@ class buyerAddressesController extends Controller
 
     public function getAddressByID($id){
          return buyerAddresses::find($id);
+    }
+
+    public function setDefault($id){
+        // $address= DB::table('buyeraddresses')->where("id","=",$id)->get();
+        buyerAddresses::where("default","=","checked")->update([
+            'default' => null,
+           ]);
+        $address= buyerAddresses::find($id);
+        // return  $address;
+        $address->update([
+            $address->default='checked',
+        ]);
+
+         return   response()->json("succesfull ", 200);
+
     }
 }

@@ -16,6 +16,7 @@ class ProductResource extends JsonResource
     {
         return[
             'sizes'=>$this->sizes,
+            // 'data'=>DB::table('products_size')->where('product_id',"=",$this->id)->where("size_id","=",$this->sizes->id)->get(),
             'id'=>$this->id,
             'verified'=>$this->product_verified_at,
             'name'=>$this->name,

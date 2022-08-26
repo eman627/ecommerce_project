@@ -16,8 +16,9 @@ class buyerAddresses extends Model
        'address_city',
        'address_street',
        'name',
-       'phone'
+       'phone',
+       'default'
     ];
 
-   
+
 }

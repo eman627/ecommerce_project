@@ -23,6 +23,7 @@ class buyeraddressesResource extends JsonResource
             'name'=>$this->name,
             'phone'=>$this->phone,
             'created_at'=>$this->created_at,
+            'default'=>$this->default,
 
 
         ];

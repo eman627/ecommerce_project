@@ -64,9 +64,15 @@ class ProductController extends Controller
          $parentCatSizes=DB::table('sizes')->where('category_id','=',$parentCat)->get();
          if(count($parentCatSizes)){
          foreach($request->sizes as $size){
+            // return  $size;
+            $objSize =json_decode($size,true);
+        //    json_decode($request->stdin, true);
+        //    $objSize=json.stringf($size) ;
+        // return $objSize  ;
             DB::table('products_size')->insert(
                 ['product_id'=>$product->id,
-                  'size_id'=> $size,
+                  'size_id'=>$objSize['size'],
+                  'quantity'=>$objSize['quantity'],
                   'created_at'=>now(),
                   'updated_at'=>now()
                 ]
