@@ -27,6 +27,7 @@ class OrderController extends Controller
     public function index()
     {
           return  OrderResource::collection( Order::all()) ;
+
     }
 
     /**
@@ -212,7 +213,7 @@ class OrderController extends Controller
 
         return $sellerArr;
         }
-        if($request->status=='pending' &&$order->payment_id ){
+        if($request->status =='pending' && $order->payment_id ){
             $order->update([$order->status="confirmed"]);
                $items=DB::table('orderdetails')->where("order_id","=",$id)->get();
 
@@ -223,9 +224,22 @@ class OrderController extends Controller
                 $qty=$item->quantity;
                 $product->update([
                 $product->quantity -=$qty
-             ]);
-               }
+             ]);  
+        //    $update_product=DB::table('products_size')->where('product_id',"=", $item->product_id)->where("size_id","=", $item->size_id)->first();
+        //     $x=$update_product->quantity;
+        //    $update_product->update([
+        //     'quantity' => $x - $qty,
+        //    ]);
+
+            // foreach($product_size as $product_s){
+            //     $qty=$item->quantity;
+            //     $product_s->update([
+            //         $product_s->quantity -= $qty
+            //  ]);
+
+            //    }
         }
+    }
         elseif($request->status=="confirmed" && $order->payment_id ){
             $order->update([$order->status="shipped"]);
         }
