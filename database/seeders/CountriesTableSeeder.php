@@ -17,7 +17,7 @@ class CountriesTableSeeder extends Seeder
         $sql_file = public_path('ecommerce_world.sql');
         $db = [
             'host' => '127.0.0.1',
-            'database' => 'test_api',
+            'database' => 'ecommerce',
             'username' => 'root',
             'password' => null,
         ];
