@@ -92,7 +92,7 @@ class OrderController extends Controller
             }
             else {
                 $price=$request->price;
-                $order->price= $price+30;
+                $order->price= $price +30 ;
             }
         }
         $order->save();
@@ -106,7 +106,11 @@ class OrderController extends Controller
             $orderItem->price = $item['price'];
             $orderItem->size_id = $item['size_id'];
             $orderItem->save();
-            // Product::where(['id' => $item['product_id'])
+            // Product::where('id',"=", $item['product_id'])->update(
+            //     [
+            //         $this->quantity;
+            //     ]
+            // )
 
         }
         Cart::where('user_id','=',$request->user_id)->delete();
@@ -160,6 +164,12 @@ class OrderController extends Controller
 
                ]);
 
+            // sellerArr=[
+            //     {
+            //         "email"=>"ccccccccccc"",
+            //         "orderdetails=>",""
+            //     }
+            // ]
                $sellerArr=[];
               $array_seller=[];
           $product_ids=orderdetails::where("order_id","=",$id)->distinct()->get('product_id');
